@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 0;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.upload-section {
+  margin-bottom: 20px;
+}
+
+#imageUpload {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+#generateButton, #exportButton {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#generateButton:hover, #exportButton:hover {
+  background-color: #45a049;
+}
+
+#imagePreview {
+  margin-top: 20px;
+}
+
+#viewerContainer {
+  margin-top: 50px;
+  display: none;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+}
