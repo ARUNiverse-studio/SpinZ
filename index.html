@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spiZ 360° Image Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>spiZ 360° Image Generator</h1>
+    <div class="upload-section">
+      <input type="file" id="imageUpload" multiple accept="image/*">
+      <button id="generateButton">Generate 360° View</button>
+    </div>
+    <div id="imagePreview"></div>
+    <div id="viewerContainer">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="export-section">
+      <button id="exportButton" style="display: none;">Export HTML</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
