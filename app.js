@@ -10,28 +10,6 @@ document.getElementById('generateButton').addEventListener('click', generate360V
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('refreshButton').addEventListener('click', refreshImages);
 
-function refreshImages() {
-  // Reset uploaded images
-  imageElements = [];
-  currentImageIndex = 0;
-  totalImages = 0;
-
-  // Hide the viewer container and export button
-  document.getElementById('viewerContainer').style.display = 'none';
-  document.getElementById('exportButton').style.display = 'none';
-  document.getElementById('refreshButton').style.display = 'none';
-
-  // Clear the file input
-  document.getElementById('imageUpload').value = '';
-
-  // Clear the canvas
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  alert("All images have been cleared.");
-}
-
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
   if (files.length === 0) {
@@ -63,7 +41,6 @@ function generate360View() {
 }
 
 function init360Viewer() {
-  // Set canvas size to a fixed value or adjust to image dimensions
   const canvasWidth = 800; // Set your desired canvas width
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
 
@@ -72,6 +49,7 @@ function init360Viewer() {
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
+  document.getElementById('refreshButton').style.display = 'block'; // Show the refresh button after images are loaded
 
   // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
@@ -80,7 +58,7 @@ function init360Viewer() {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mouseleave', stopDragging); // Stop dragging if the mouse leaves the canvas
+  canvas.addEventListener('mouseleave', stopDragging);
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
@@ -97,15 +75,12 @@ function onDragging(e) {
   const currentX = e.clientX || e.touches[0].clientX;
   const deltaX = currentX - startX;
 
-  // Adjust sensitivity for smooth rotation
   if (Math.abs(deltaX) > dragSpeed / totalImages) {
     const direction = deltaX > 0 ? -1 : 1; // Negative for left, positive for right
     startX = currentX;
 
-    // Move to the next/previous image smoothly
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
 
-    // Clear the canvas and draw the current image, scaled to canvas size
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const img = imageElements[currentImageIndex];
     const canvasWidth = canvas.width;
@@ -116,6 +91,28 @@ function onDragging(e) {
 
 function stopDragging() {
   isDragging = false;
+}
+
+function refreshImages() {
+  // Reset uploaded images
+  imageElements = [];
+  currentImageIndex = 0;
+  totalImages = 0;
+
+  // Hide the viewer container and export button
+  document.getElementById('viewerContainer').style.display = 'none';
+  document.getElementById('exportButton').style.display = 'none';
+  document.getElementById('refreshButton').style.display = 'none';
+
+  // Clear the file input
+  document.getElementById('imageUpload').value = '';
+
+  // Clear the canvas
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  alert("All images have been cleared.");
 }
 
 // Export HTML file with embedded images in Base64
