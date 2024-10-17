@@ -62,13 +62,9 @@ function init360Viewer() {
   canvas.addEventListener('touchend', stopDragging);
 }
 
-function startDragging(e) {
-  isDragging = true;
-  startX = e.clientX || e.touches[0].clientX;
-}
-
 function onDragging(e) {
   if (!isDragging) return;
+
   const currentX = e.clientX || e.touches[0].clientX;
   const deltaX = currentX - startX;
 
@@ -80,9 +76,12 @@ function onDragging(e) {
     // Move to the next/previous image smoothly
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
 
-    // Clear the canvas and draw the current image
+    // Clear the canvas and draw the current image, scaled to canvas size
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(imageElements[currentImageIndex], 0, 0);
+    const img = imageElements[currentImageIndex];
+    const canvasWidth = canvas.width;
+    const canvasHeight = (img.height / img.width) * canvasWidth; // Maintain aspect ratio
+    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
   }
 }
 
