@@ -95,14 +95,14 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export and Refresh Buttons in Bottom-Right Corner */
+/* Export and New Start Buttons in Bottom-Right Corner */
 .export-section {
   position: relative; /* Relative position for button positioning */
   height: 100px; /* Adjust height to fit both buttons */
 }
 
-/* Refresh Button */
-#refreshButton {
+/* New Start */
+#startagainButton {
   padding: 12px 25px;
   background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for refresh button */
   color: white;
@@ -118,7 +118,7 @@ canvas {
   margin: 10px;
 }
 
-#refreshButton:hover {
+#startagainButton:hover {
   background: linear-gradient(135deg, #FF4500, #CC3700);
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
