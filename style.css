@@ -122,4 +122,30 @@ canvas {
   canvas {
     width: 100%;
   }
+  /* Position the Export button to the bottom-right */
+.export-section {
+  position: relative;
+  height: 100px; /* Adjust height if needed to fit the button */
+}
+
+#exportButton {
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #007BFF, #0056b3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  position: absolute;
+  bottom: 20px; /* 20px from the bottom */
+  right: 20px; /* 20px from the right */
+}
+
+#exportButton:hover {
+  background: linear-gradient(135deg, #0056b3, #004080);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
 }
