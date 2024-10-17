@@ -8,7 +8,7 @@ let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
-document.getElementById('refreshButton').addEventListener('click', refreshImages);
+document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
@@ -49,7 +49,7 @@ function init360Viewer() {
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
-  document.getElementById('refreshButton').style.display = 'block'; // Show the refresh button after images are loaded
+  document.getElementById('startAgainButton').style.display = 'block'; // Show the "Start Again" button after images are loaded
 
   // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
@@ -58,7 +58,7 @@ function init360Viewer() {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mouseleave', stopDragging);
+  canvas.addEventListener('mouseleave', stopDragging); // Stop dragging if the mouse leaves the canvas
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
@@ -93,7 +93,7 @@ function stopDragging() {
   isDragging = false;
 }
 
-function refreshImages() {
+function startAgain() {
   // Reset uploaded images
   imageElements = [];
   currentImageIndex = 0;
@@ -102,7 +102,7 @@ function refreshImages() {
   // Hide the viewer container and export button
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
-  document.getElementById('refreshButton').style.display = 'none';
+  document.getElementById('startAgainButton').style.display = 'none';
 
   // Clear the file input
   document.getElementById('imageUpload').value = '';
