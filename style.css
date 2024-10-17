@@ -95,16 +95,16 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export and New Start Buttons in Bottom-Right Corner */
+/* Export and Start Again Buttons in Bottom-Right Corner */
 .export-section {
   position: relative; /* Relative position for button positioning */
   height: 100px; /* Adjust height to fit both buttons */
 }
 
-/* New Start */
-#startagainButton {
+/* Start Again Button */
+#startAgainButton {
   padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for start again */
+  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
   color: white;
   border: none;
   cursor: pointer;
@@ -118,7 +118,7 @@ canvas {
   margin: 10px;
 }
 
-#startagainButton:hover {
+#startAgainButton:hover {
   background: linear-gradient(135deg, #FF4500, #CC3700);
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
