@@ -40,8 +40,8 @@ function generate360View() {
 }
 
 function init360Viewer() {
-  // Set canvas size to a fixed value or adjust to image dimensions
-  const canvasWidth = 800; // Set your desired canvas width (e.g., 800px)
+  // Set desired canvas dimensions
+  const canvasWidth = 800; // Set your desired canvas width
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
 
   canvas.width = canvasWidth;
@@ -85,9 +85,15 @@ function onDragging(e) {
   }
 }
 
+function startDragging(e) {
+  isDragging = true;
+  startX = e.clientX || e.touches[0].clientX;
+}
+
 function stopDragging() {
   isDragging = false;
 }
+
 
 // Export HTML file with embedded images in Base64
 function exportHTMLFile() {
