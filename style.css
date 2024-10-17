@@ -95,36 +95,9 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export Button in Bottom-Right Corner */
+/* Export and Refresh Buttons in Bottom-Right Corner */
 .export-section {
   position: relative; /* Relative position for button positioning */
-  height: 100px; /* Adjust height if needed */
-}
-
-#exportButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 10px;
-}
-
-#exportButton:hover {
-  background: linear-gradient(135deg, #0056b3, #004080);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-/* Position the buttons together at the bottom-right */
-.export-section {
-  position: relative;
   height: 100px; /* Adjust height to fit both buttons */
 }
 
@@ -151,7 +124,7 @@ canvas {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Export Button in Bottom-Right Corner */
+/* Export Button */
 #exportButton {
   padding: 12px 25px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
