@@ -8,6 +8,29 @@ let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
+document.getElementById('refreshButton').addEventListener('click', refreshImages);
+
+function refreshImages() {
+  // Reset uploaded images
+  imageElements = [];
+  currentImageIndex = 0;
+  totalImages = 0;
+
+  // Hide the viewer container and export button
+  document.getElementById('viewerContainer').style.display = 'none';
+  document.getElementById('exportButton').style.display = 'none';
+  document.getElementById('refreshButton').style.display = 'none';
+
+  // Clear the file input
+  document.getElementById('imageUpload').value = '';
+
+  // Clear the canvas
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  alert("All images have been cleared.");
+}
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
