@@ -104,7 +104,7 @@ canvas {
 /* New Start */
 #startagainButton {
   padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for refresh button */
+  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for start again */
   color: white;
   border: none;
   cursor: pointer;
