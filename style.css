@@ -79,10 +79,6 @@ button:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-#exportButton {
-  margin-top: 20px;
-}
-
 /* Viewer Section */
 #viewerContainer {
   margin-top: 50px;
@@ -99,9 +95,32 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export Section */
+/* Export Button in Bottom-Right Corner */
 .export-section {
-  margin-top: 20px;
+  position: relative; /* Relative position for button positioning */
+  height: 100px; /* Adjust height if needed */
+}
+
+#exportButton {
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #007BFF, #0056b3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+}
+
+#exportButton:hover {
+  background: linear-gradient(135deg, #0056b3, #004080);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive Design for Small Screens */
@@ -122,33 +141,4 @@ canvas {
   canvas {
     width: 100%;
   }
-/* Ensure the container allows the button to position itself relative to it */
-.export-section {
-  position: relative; /* Make the container the reference point */
-  height: 100px; /* Adjust height if needed to fit the button */
-}
-
-/* Position the Export button to the bottom-right corner */
-#exportButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  position: absolute;
-  bottom: 0; /* Stick to the bottom of the export-section */
-  right: 0; /* Stick to the right side of the export-section */
-  margin: 10px; /* Add some spacing from the edges */
-}
-
-#exportButton:hover {
-  background: linear-gradient(135deg, #0056b3, #004080);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
 }
