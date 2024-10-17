@@ -40,13 +40,18 @@ function generate360View() {
 }
 
 function init360Viewer() {
-  canvas.width = imageElements[0].width;
-  canvas.height = imageElements[0].height;
+  // Set canvas size to a fixed value or adjust to image dimensions
+  const canvasWidth = 800; // Set your desired canvas width (e.g., 800px)
+  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
+
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
 
-  // Display the first image
-  ctx.drawImage(imageElements[0], 0, 0);
+  // Display the first image with scaling to fit the canvas
+  ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
   // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
