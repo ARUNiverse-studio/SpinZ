@@ -23,7 +23,7 @@ function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  // Load and store images
+  // Load and store images in the order they are uploaded
   for (let i = 0; i < files.length; i++) {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -191,26 +191,4 @@ function exportHTMLFile() {
             startX = currentX;
 
             currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
-          }
-        }
-
-        function stopDragging() {
-          isDragging = false;
-        }
-      </script>
-    </body>
-    </html>
-  `;
-
-  // Create a blob for the HTML content and trigger a download
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '360_viewer.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
+            ctx.clearRect(
