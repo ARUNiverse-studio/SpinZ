@@ -6,9 +6,6 @@
   <title>spiZ 360° Image Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"> <!-- Link to the correct stylesheet -->
-  
-  <!-- Include gif.js library BEFORE your app.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
 </head>
 <body>
   <div class="container">
@@ -25,13 +22,10 @@
       <canvas id="canvas"></canvas>
     </div>
     <div class="export-section">
-      <button id="startAgainButton" style="display: none;">Start Again</button>
-      <button id="exportButton" style="display: none;">Export HTML</button>
-      <button id="exportGifButton" style="display: none;">Export GIF</button> <!-- Export GIF Button -->
+      <button id="startAgainButton" style="display: none;">Start Again</button> <!-- Updated "Start Again" button -->
+      <button id="exportButton" style="display: none;">Export</button> <!-- Existing Export Button -->
     </div>
   </div>
-  
-  <!-- Include your custom JS file -->
   <script src="app.js"></script> <!-- Link to the JS file -->
 </body>
 </html>
