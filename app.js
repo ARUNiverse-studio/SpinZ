@@ -4,11 +4,13 @@ let currentImageIndex = 0;
 let totalImages = 0;
 let imageElements = [];
 let canvas, ctx;
-let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
+let dragSpeed = 200;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
+document.getElementById('getEmbedButton').addEventListener('click', generateEmbedCode);
+document.getElementById('copyEmbedButton').addEventListener('click', copyEmbedCode);
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
@@ -23,12 +25,11 @@ function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  // Load and store images
   for (let i = 0; i < files.length; i++) {
     const reader = new FileReader();
     reader.onload = function (e) {
       const img = new Image();
-      img.src = e.target.result; // Base64 encoded image
+      img.src = e.target.result;
       img.onload = () => {
         imageElements.push(img);
         if (imageElements.length === totalImages) {
@@ -36,58 +37,55 @@ function generate360View() {
         }
       };
     };
-    reader.readAsDataURL(files[i]); // Convert image to Base64
+    reader.readAsDataURL(files[i]);
   }
 }
 
 function init360Viewer() {
-  const canvasWidth = 800; // Set your desired canvas width
-  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
+  const canvasWidth = 800;
+  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
-  document.getElementById('startAgainButton').style.display = 'block'; // Show the "Start Again" button after images are loaded
+  document.getElementById('startAgainButton').style.display = 'block';
+  document.getElementById('getEmbedButton').style.display = 'block';
 
-  // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
-  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mouseleave', stopDragging); // Stop dragging if the mouse leaves the canvas
+  canvas.addEventListener('mouseleave', stopDragging);
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
 }
 
 function startDragging(e) {
-  e.preventDefault(); // Prevent default touch behavior (scrolling)
+  e.preventDefault();
   isDragging = true;
   startX = e.clientX || e.touches[0].clientX;
 }
 
 function onDragging(e) {
-  e.preventDefault(); // Prevent default touch behavior (scrolling)
+  e.preventDefault();
   if (!isDragging) return;
 
   const currentX = e.clientX || e.touches[0].clientX;
   const deltaX = currentX - startX;
 
   if (Math.abs(deltaX) > dragSpeed / totalImages) {
-    const direction = deltaX > 0 ? -1 : 1; // Negative for left, positive for right
+    const direction = deltaX > 0 ? -1 : 1;
     startX = currentX;
 
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const img = imageElements[currentImageIndex];
-    const canvasWidth = canvas.width;
-    const canvasHeight = (img.height / img.width) * canvasWidth; // Maintain aspect ratio
-    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }
 }
 
@@ -96,30 +94,25 @@ function stopDragging() {
 }
 
 function startAgain() {
-  // Reset uploaded images
   imageElements = [];
   currentImageIndex = 0;
   totalImages = 0;
 
-  // Hide the viewer container and export button
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
+  document.getElementById('getEmbedButton').style.display = 'none';
+  document.getElementById('embedCodeTextarea').style.display = 'none';
+  document.getElementById('copyEmbedButton').style.display = 'none';
 
-  // Clear the file input
   document.getElementById('imageUpload').value = '';
-
-  // Clear the canvas
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   alert("All images have been cleared.");
 }
 
-// Export HTML file with embedded images in Base64
 function exportHTMLFile() {
-  let base64Images = imageElements.map(img => img.src); // Get Base64 encoded image sources
+  let base64Images = imageElements.map(img => img.src);
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -155,7 +148,6 @@ function exportHTMLFile() {
         let ctx = canvas.getContext('2d');
         let dragSpeed = 200;
 
-        // Load and store images
         const imageSrcs = ${JSON.stringify(base64Images)};
         imageSrcs.forEach(src => {
           const img = new Image();
@@ -206,7 +198,6 @@ function exportHTMLFile() {
     </html>
   `;
 
-  // Create a blob for the HTML content and trigger a download
   const blob = new Blob([htmlContent], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -215,4 +206,24 @@ function exportHTMLFile() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+function generateEmbedCode() {
+  const embedCode = `
+  <iframe src="${window.location.href}" width="${canvas.width}" height="${canvas.height}" frameborder="0" allowfullscreen></iframe>
+  `;
+
+  const embedTextarea = document.getElementById('embedCodeTextarea');
+  embedTextarea.value = embedCode;
+  embedTextarea.style.display = 'block';
+
+  document.getElementById('copyEmbedButton').style.display = 'block';
+}
+
+function copyEmbedCode() {
+  const embedTextarea = document.getElementById('embedCodeTextarea');
+  embedTextarea.select();
+  document.execCommand('copy');
+
+  alert('Embed code copied to clipboard!');
 }
