@@ -86,7 +86,8 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%; /* Make buttons full width */
+  width: auto; /* Set width to auto to avoid stretching */
+  max-width: 200px; /* Maximum width for desktop view */
   margin-top: 10px; /* Spacing between buttons */
 }
 
@@ -112,15 +113,27 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export and Start Again Buttons in Bottom-Right Corner */
+/* Start Again and Export Buttons in Bottom-Right Corner */
 .export-section {
+  display: flex; /* Use flexbox for button layout */
+  justify-content: center; /* Center the buttons */
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center items horizontally */
   position: relative; /* Relative position for button positioning */
   height: auto; /* Let the height adjust automatically */
 }
 
 /* Start Again Button */
 #startAgainButton {
+  padding: 12px 25px;
   background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #startAgainButton:hover {
@@ -129,7 +142,15 @@ canvas {
 
 /* Export Button */
 #exportButton {
+  padding: 12px 25px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #exportButton:hover {
@@ -153,5 +174,10 @@ canvas {
 
   .logo {
     width: 120px; /* Smaller logo size on mobile */
+  }
+
+  /* Ensure buttons are full width on small screens */
+  button {
+    width: 100%; /* Make buttons full width on small screens */
   }
 }
