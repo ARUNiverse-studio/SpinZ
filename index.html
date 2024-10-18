@@ -9,13 +9,12 @@
 </head>
 <body>
   <div class="container">
-    <!-- Add the logo here -->
     <div class="logo-container">
-      <img src="logo.png" alt="spiZ Logo" class="logo"> <!-- Ensure the image source is correct -->
+      <img src="logo.png" alt="spiZ Logo" class="logo">
     </div>
     <h1>spiZ 360° Image Generator</h1>
     <div class="upload-section">
-      <input type="file" id="imageUpload" multiple accept="image/*">
+      <input type="file" id="imageUpload" multiple accept="image/*" capture="camera"> <!-- Allow camera capture -->
       <button id="generateButton">Generate 360° View</button>
     </div>
     <div id="imagePreview"></div>
