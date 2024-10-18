@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>spiZ 360° Image Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <!-- Link to the correct stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Splash Screen -->
-  <div id="splashScreen">
-    <img src="logo.png" alt="spiZ Logo" class="logo"> <!-- Logo in splash screen -->
-    <h2>Loading...</h2>
-  </div>
-
   <div class="container">
+    <!-- Add the logo here -->
+    <div class="logo-container">
+      <img src="logo.png" alt="spiZ Logo" class="logo"> <!-- Ensure the image source is correct -->
+    </div>
     <h1>spiZ 360° Image Generator</h1>
     <div class="upload-section">
       <input type="file" id="imageUpload" multiple accept="image/*">
@@ -25,10 +23,10 @@
       <canvas id="canvas"></canvas>
     </div>
     <div class="export-section">
-      <button id="startAgainButton" style="display: none;">Start Again</button> <!-- Updated "Start Again" button -->
-      <button id="exportButton" style="display: none;">Export</button> <!-- Existing Export Button -->
+      <button id="startAgainButton" style="display: none;">Start Again</button>
+      <button id="exportButton" style="display: none;">Export</button>
     </div>
   </div>
-  <script src="app.js"></script> <!-- Link to the JS file -->
+  <script src="app.js"></script>
 </body>
 </html>
