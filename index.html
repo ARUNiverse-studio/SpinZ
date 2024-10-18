@@ -6,6 +6,7 @@
   <title>spiZ 360° Image Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"> <!-- Link to the correct stylesheet -->
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized@0.0.1/gif.js"></script> <!-- Include gif.js -->
 </head>
 <body>
   <div class="container">
@@ -22,8 +23,9 @@
       <canvas id="canvas"></canvas>
     </div>
     <div class="export-section">
-      <button id="startAgainButton" style="display: none;">Start Again</button> <!-- Updated "Start Again" button -->
-      <button id="exportButton" style="display: none;">Export</button> <!-- Existing Export Button -->
+      <button id="startAgainButton" style="display: none;">Start Again</button>
+      <button id="exportButton" style="display: none;">Export HTML</button>
+      <button id="exportGifButton" style="display: none;">Export GIF</button> <!-- Export GIF Button -->
     </div>
   </div>
   <script src="app.js"></script> <!-- Link to the JS file -->
