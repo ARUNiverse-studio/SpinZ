@@ -33,6 +33,7 @@ function generate360View() {
       img.onload = () => {
         imageElements.push(img);
         if (imageElements.length === totalImages) {
+          console.log("All images loaded.");
           init360Viewer();
         }
       };
@@ -220,6 +221,8 @@ function exportHTMLFile() {
 
 // Export GIF using gif.js
 function exportGif() {
+  console.log("Starting GIF export...");
+
   const gif = new GIF({
     workers: 2,
     quality: 10,
@@ -232,10 +235,11 @@ function exportGif() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before drawing new image
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw image on canvas
     gif.addFrame(ctx, {copy: true, delay: 100}); // Add the frame to the GIF (100ms delay per frame)
+    console.log("Added frame " + (index + 1));
   });
 
-  // Render the GIF and save it
   gif.on('finished', function(blob) {
+    console.log("GIF rendering finished.");
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -243,7 +247,9 @@ function exportGif() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    console.log("GIF downloaded.");
   });
 
   gif.render(); // Start generating the GIF
+  console.log("GIF rendering started...");
 }
