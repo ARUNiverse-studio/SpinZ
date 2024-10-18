@@ -35,6 +35,19 @@ body {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
+/* Logo Styling */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 150px; /* Default size of the logo */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 /* Title */
 h1 {
   font-size: 2.5rem;
@@ -73,6 +86,8 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* Make buttons full width */
+  margin-top: 10px; /* Spacing between buttons */
 }
 
 button:hover {
@@ -97,56 +112,28 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Start Again and Export Buttons in Bottom-Right Corner */
+/* Export and Start Again Buttons in Bottom-Right Corner */
 .export-section {
   position: relative; /* Relative position for button positioning */
-  height: 100px; /* Adjust height to fit both buttons */
+  height: auto; /* Let the height adjust automatically */
 }
 
 /* Start Again Button */
 #startAgainButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  position: absolute;
-  bottom: 0;
-  right: 120px; /* Positioned before the Export button */
-  margin: 10px;
+  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
 }
 
 #startAgainButton:hover {
   background: linear-gradient(135deg, #FF4500, #CC3700);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Export Button */
 #exportButton {
-  padding: 12px 25px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 10px;
 }
 
 #exportButton:hover {
   background: linear-gradient(135deg, #0056b3, #004080);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive Design for Small Screens */
@@ -164,12 +151,7 @@ canvas {
     margin-bottom: 10px; /* Add margin below input */
   }
 
-  button {
-    width: 100%; /* Make buttons full width on small screens */
-    margin-top: 10px;
-  }
-
-  canvas {
-    width: 100%;
+  .logo {
+    width: 120px; /* Smaller logo size on mobile */
   }
 }
