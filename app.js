@@ -259,59 +259,80 @@ function getEmbedCode() {
 }
 
 function generateEmbedCode() {
-  const base64Images = imageElements.map(img => img.src);
+  // Generate a unique ID for this 360 view
+  const viewId = 'view_' + Date.now();
+  
+  // Here, you would typically save the images to your server and get their URLs
+  // For this example, we'll assume a server endpoint that serves these images
+  const imageUrls = imageElements.map((_, index) => `/api/360-images/${viewId}/${index}`);
+
   const embedCode = `
-<div id="spiZ360Viewer" style="width:100%;max-width:800px;margin:0 auto;">
-  <canvas id="spiZ360Canvas"></canvas>
+<div id="spiZ360Viewer_${viewId}" style="width:100%;max-width:800px;margin:0 auto;">
+  <canvas id="spiZ360Canvas_${viewId}"></canvas>
 </div>
+<script src="https://your-domain.com/spiZ360Viewer.js"></script>
 <script>
-  (function() {
-    const images = ${JSON.stringify(base64Images)};
-    let currentIndex = 0;
-    const canvas = document.getElementById('spiZ360Canvas');
-    const ctx = canvas.getContext('2d');
-    let isDragging = false;
-    let startX;
-
-    function loadImages() {
-      const imageElements = images.map(src => {
-        const img = new Image();
-        img.src = src;
-        return img;
-      });
-
-      imageElements[0].onload = () => {
-        canvas.width = imageElements[0].width;
-        canvas.height = imageElements[0].height;
-        ctx.drawImage(imageElements[0], 0, 0);
-      };
-
-      return imageElements;
-    }
-
-    const imageElements = loadImages();
-
-    canvas.addEventListener('mousedown', e => {
-      isDragging = true;
-      startX = e.clientX;
-    });
-
-    canvas.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      if (Math.abs(deltaX) > 5) {
-        currentIndex = (currentIndex + (deltaX > 0 ? 1 : -1) + imageElements.length) % imageElements.length;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(imageElements[currentIndex], 0, 0);
-        startX = e.clientX;
-      }
-    });
-
-    canvas.addEventListener('mouseup', () => isDragging = false);
-    canvas.addEventListener('mouseleave', () => isDragging = false);
-  })();
+  new SpiZ360Viewer('spiZ360Viewer_${viewId}', ${JSON.stringify(imageUrls)});
 </script>
 `;
 
   return embedCode;
+}
+
+// Note: The following function should be in a separate file named spiZ360Viewer.js
+// It's included here for completeness, but should be moved to its own file in production
+function SpiZ360Viewer(containerId, imageUrls) {
+  const container = document.getElementById(containerId);
+  const canvas = container.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  let currentIndex = 0;
+  let isDragging = false;
+  let startX;
+  const imageElements = [];
+
+  function loadImages() {
+    imageUrls.forEach(url => {
+      const img = new Image();
+      img.src = url;
+      img.onload = () => {
+        imageElements.push(img);
+        if (imageElements.length === imageUrls.length) {
+          initViewer();
+        }
+      };
+    });
+  }
+
+  function initViewer() {
+    canvas.width = imageElements[0].width;
+    canvas.height = imageElements[0].height;
+    ctx.drawImage(imageElements[0], 0, 0);
+
+    canvas.addEventListener('mousedown', startDragging);
+    canvas.addEventListener('mousemove', onDragging);
+    canvas.addEventListener('mouseup', stopDragging);
+    canvas.addEventListener('mouseleave', stopDragging);
+  }
+
+  function startDragging(e) {
+    isDragging = true;
+    startX = e.clientX;
+  }
+
+  function onDragging(e) {
+    if (!isDragging) return;
+    const deltaX = e.clientX - startX;
+    if (Math.abs(deltaX) > 5) {
+      currentIndex = (currentIndex + (deltaX > 0 ? 1 : -1) + imageElements.length) % imageElements.length;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(imageElements[currentIndex], 0, 0);
+      startX = e.clientX;
+    }
+  }
+
+  function stopDragging() {
+    isDragging = false;
+  }
+
+  loadImages();
 }
