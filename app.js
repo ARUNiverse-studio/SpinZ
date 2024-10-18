@@ -65,11 +65,13 @@ function init360Viewer() {
 }
 
 function startDragging(e) {
+  e.preventDefault(); // Prevent default touch behavior (scrolling)
   isDragging = true;
   startX = e.clientX || e.touches[0].clientX;
 }
 
 function onDragging(e) {
+  e.preventDefault(); // Prevent default touch behavior (scrolling)
   if (!isDragging) return;
 
   const currentX = e.clientX || e.touches[0].clientX;
