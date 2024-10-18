@@ -42,7 +42,7 @@ body {
 }
 
 .logo {
-  width: 150px; /* Default size of the logo */
+  width: 150px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -65,8 +65,8 @@ h1 {
   border: 2px solid #007BFF;
   border-radius: 8px;
   margin-right: 10px;
-  width: calc(100% - 120px); /* Make it responsive */
-  max-width: 300px; /* Limit max width for larger screens */
+  width: calc(100% - 120px);
+  max-width: 300px;
   transition: border-color 0.3s ease;
 }
 
@@ -86,9 +86,9 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: auto; /* Set width to auto to avoid stretching */
-  max-width: 200px; /* Maximum width for desktop view */
-  margin-top: 10px; /* Spacing between buttons */
+  width: auto;
+  max-width: 200px;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -103,7 +103,6 @@ button:hover {
   display: none;
 }
 
-/* Canvas Styling */
 canvas {
   width: 100%;
   height: auto;
@@ -113,47 +112,30 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Start Again and Export Buttons in Bottom-Right Corner */
-.export-section {
-  display: flex; /* Use flexbox for button layout */
-  justify-content: center; /* Center the buttons */
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: center; /* Center items horizontally */
-  position: relative; /* Relative position for button positioning */
-  height: auto; /* Let the height adjust automatically */
-}
-
-/* Start Again Button */
-#startAgainButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
-  color: white;
-  border: none;
-  cursor: pointer;
+/* Embed Code Section */
+#embedCodeTextarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: 2px solid #007BFF;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
 }
 
-#startAgainButton:hover {
-  background: linear-gradient(135deg, #FF4500, #CC3700);
-}
-
-/* Export Button */
-#exportButton {
-  padding: 12px 25px;
+#copyEmbedButton {
+  padding: 10px 20px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
   color: white;
   border: none;
-  cursor: pointer;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-#exportButton:hover {
+#copyEmbedButton:hover {
   background: linear-gradient(135deg, #0056b3, #004080);
 }
 
@@ -168,16 +150,15 @@ canvas {
   }
 
   #imageUpload {
-    width: 100%; /* Full width on small screens */
-    margin-bottom: 10px; /* Add margin below input */
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .logo {
-    width: 120px; /* Smaller logo size on mobile */
+    width: 120px;
   }
 
-  /* Ensure buttons are full width on small screens */
   button {
-    width: 100%; /* Make buttons full width on small screens */
+    width: 100%;
   }
 }
