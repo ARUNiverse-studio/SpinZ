@@ -235,26 +235,40 @@ function exportGif() {
   imageElements.forEach((img, index) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before drawing new image
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw image on canvas
-    gif.addFrame(ctx, {copy: true, delay: 100}); // Add the frame to the GIF (100ms delay per frame)
+
+    // Add the frame to the GIF
+    gif.addFrame(ctx, { copy: true, delay: 100 }); // 100ms delay per frame
     console.log("Added frame " + (index + 1));
   });
 
-  gif.on('finished', function(blob) {
-  console.log("GIF rendering finished.");
-  if (!blob) {
-    console.error("Blob is empty.");
-    return;
-  }
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '360_view.gif'; // Name of the GIF file
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  console.log("GIF downloaded.");
-});
+  gif.on('finished', function (blob) {
+    console.log("GIF rendering finished.");
+
+    // Check if the blob is created successfully
+    if (!blob) {
+      console.error("Blob is undefined or null.");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '360_view.gif'; // Name of the GIF file
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    console.log("GIF downloaded.");
+  });
+
+  gif.on('abort', function () {
+    console.error("GIF rendering aborted.");
+  });
+
+  gif.on('error', function (error) {
+    console.error("Error during GIF rendering:", error);
+  });
 
   gif.render(); // Start generating the GIF
   console.log("GIF rendering started...");
 }
+
