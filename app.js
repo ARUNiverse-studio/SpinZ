@@ -9,6 +9,7 @@ let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
+document.getElementById('exportGifButton').addEventListener('click', exportGif);
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
@@ -49,7 +50,8 @@ function init360Viewer() {
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
-  document.getElementById('startAgainButton').style.display = 'block'; // Show the "Start Again" button after images are loaded
+  document.getElementById('startAgainButton').style.display = 'block';
+  document.getElementById('exportGifButton').style.display = 'block'; // Show the Export GIF button
 
   // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
@@ -101,10 +103,11 @@ function startAgain() {
   currentImageIndex = 0;
   totalImages = 0;
 
-  // Hide the viewer container and export button
+  // Hide the viewer container and export buttons
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
+  document.getElementById('exportGifButton').style.display = 'none';
 
   // Clear the file input
   document.getElementById('imageUpload').value = '';
@@ -155,7 +158,6 @@ function exportHTMLFile() {
         let ctx = canvas.getContext('2d');
         let dragSpeed = 200;
 
-        // Load and store images
         const imageSrcs = ${JSON.stringify(base64Images)};
         imageSrcs.forEach(src => {
           const img = new Image();
@@ -206,13 +208,42 @@ function exportHTMLFile() {
     </html>
   `;
 
-  // Create a blob for the HTML content and trigger a download
   const blob = new Blob([htmlContent], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = '360_viewer.html';
+  a.download = '360_viewer.html'; 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+// Export GIF using gif.js
+function exportGif() {
+  const gif = new GIF({
+    workers: 2,
+    quality: 10,
+    width: canvas.width,
+    height: canvas.height
+  });
+
+  // Add each image frame to the GIF
+  imageElements.forEach((img, index) => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before drawing new image
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw image on canvas
+    gif.addFrame(ctx, {copy: true, delay: 100}); // Add the frame to the GIF (100ms delay per frame)
+  });
+
+  // Render the GIF and save it
+  gif.on('finished', function(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '360_view.gif'; // Name of the GIF file
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  gif.render(); // Start generating the GIF
 }
