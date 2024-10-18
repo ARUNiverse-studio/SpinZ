@@ -44,7 +44,7 @@ function generate360View() {
 function init360Viewer() {
   const canvasWidth = 800;
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
-
+  
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
@@ -54,7 +54,7 @@ function init360Viewer() {
   document.getElementById('getEmbedButton').style.display = 'block';
 
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
-
+  
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
@@ -111,42 +111,25 @@ function startAgain() {
   alert("All images have been cleared.");
 }
 
-function exportHTMLFile() {
-  let base64Images = imageElements.map(img => img.src);
+// Generate the embed code for the current canvas state
+function generateEmbedCode() {
+  const base64Images = imageElements.map(img => img.src); // Get Base64 encoded images
 
-  const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>360° Image Viewer</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: #f4f4f9;
-        }
-        canvas {
-          width: 80%;
-          height: auto;
-        }
-      </style>
-    </head>
-    <body>
-      <canvas id="canvas"></canvas>
+  const iframeHTML = `
+    <iframe width="${canvas.width}" height="${canvas.height}" frameborder="0" scrolling="no" srcdoc="
+      <html>
+      <body style='margin:0;overflow:hidden;'>
+      <canvas id='canvas'></canvas>
       <script>
-        let isDragging = false;
-        let startX = 0;
-        let currentImageIndex = 0;
-        let totalImages = ${totalImages};
-        let imageElements = [];
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
+        let imageElements = [];
+        let currentImageIndex = 0;
+        let totalImages = ${totalImages};
         let dragSpeed = 200;
+
+        canvas.width = ${canvas.width};
+        canvas.height = ${canvas.height};
 
         const imageSrcs = ${JSON.stringify(base64Images)};
         imageSrcs.forEach(src => {
@@ -155,66 +138,49 @@ function exportHTMLFile() {
           img.onload = () => {
             imageElements.push(img);
             if (imageElements.length === totalImages) {
+              ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
               initViewer();
             }
           };
         });
 
         function initViewer() {
-          canvas.width = imageElements[0].width;
-          canvas.height = imageElements[0].height;
-          ctx.drawImage(imageElements[0], 0, 0);
-
           canvas.addEventListener('mousedown', startDragging);
           canvas.addEventListener('mousemove', onDragging);
           canvas.addEventListener('mouseup', stopDragging);
-        }
 
-        function startDragging(e) {
-          isDragging = true;
-          startX = e.clientX;
-        }
+          function startDragging(e) {
+            isDragging = true;
+            startX = e.clientX;
+          }
 
-        function onDragging(e) {
-          if (!isDragging) return;
-          const currentX = e.clientX;
-          const deltaX = currentX - startX;
+          function onDragging(e) {
+            if (!isDragging) return;
+            const currentX = e.clientX;
+            const deltaX = currentX - startX;
 
-          if (Math.abs(deltaX) > dragSpeed / totalImages) {
-            const direction = deltaX > 0 ? -1 : 1;
-            startX = currentX;
+            if (Math.abs(deltaX) > dragSpeed / totalImages) {
+              const direction = deltaX > 0 ? -1 : 1;
+              startX = currentX;
 
-            currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
+              currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(imageElements[currentImageIndex], 0, 0, canvas.width, canvas.height);
+            }
+          }
+
+          function stopDragging() {
+            isDragging = false;
           }
         }
-
-        function stopDragging() {
-          isDragging = false;
-        }
       </script>
-    </body>
-    </html>
-  `;
-
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '360_viewer.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-function generateEmbedCode() {
-  const embedCode = `
-  <iframe src="${window.location.href}" width="${canvas.width}" height="${canvas.height}" frameborder="0" allowfullscreen></iframe>
+      </body>
+      </html>
+    "></iframe>
   `;
 
   const embedTextarea = document.getElementById('embedCodeTextarea');
-  embedTextarea.value = embedCode;
+  embedTextarea.value = iframeHTML;
   embedTextarea.style.display = 'block';
 
   document.getElementById('copyEmbedButton').style.display = 'block';
