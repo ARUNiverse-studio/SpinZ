@@ -11,7 +11,7 @@ document.getElementById('exportButton').addEventListener('click', exportHTMLFile
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
 function generate360View() {
-  const files = document.getElementById('imageUpload').files;
+  const files = document.getElementById('imageUpload').files; // Get uploaded files
   if (files.length === 0) {
     alert("Please upload images to generate the 360° view.");
     return;
@@ -191,4 +191,26 @@ function exportHTMLFile() {
             startX = currentX;
 
             currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            ctx.clearRect(
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
+          }
+        }
+
+        function stopDragging() {
+          isDragging = false;
+        }
+      </script>
+    </body>
+    </html>
+  `;
+
+  // Create a blob for the HTML content and trigger a download
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '360_viewer.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
