@@ -240,16 +240,20 @@ function exportGif() {
   });
 
   gif.on('finished', function(blob) {
-    console.log("GIF rendering finished.");
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = '360_view.gif'; // Name of the GIF file
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    console.log("GIF downloaded.");
-  });
+  console.log("GIF rendering finished.");
+  if (!blob) {
+    console.error("Blob is empty.");
+    return;
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '360_view.gif'; // Name of the GIF file
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  console.log("GIF downloaded.");
+});
 
   gif.render(); // Start generating the GIF
   console.log("GIF rendering started...");
