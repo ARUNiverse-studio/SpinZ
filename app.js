@@ -6,14 +6,6 @@ let imageElements = [];
 let canvas, ctx;
 let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
 
-// Hide the splash screen after the app has loaded
-window.onload = function () {
-  const splashScreen = document.getElementById('splashScreen');
-  setTimeout(() => {
-    splashScreen.style.display = 'none'; // Hide the splash screen after 2 seconds (adjust if needed)
-  }, 2000); // Show splash screen for 2 seconds
-};
-
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
