@@ -4,7 +4,6 @@ let currentImageIndex = 0;
 let totalImages = 0;
 let imageElements = [];
 let canvas, ctx;
-let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
@@ -80,7 +79,7 @@ function onDragging(e) {
     const currentX = e.clientX || e.touches[0].clientX;
     const deltaX = currentX - startX;
 
-    if (Math.abs(deltaX) > dragSpeed / totalImages) {
+    if (Math.abs(deltaX) > 5) { // Add some threshold for better control
         const direction = deltaX > 0 ? -1 : 1; // Negative for left, positive for right
         startX = currentX;
 
@@ -88,9 +87,7 @@ function onDragging(e) {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const img = imageElements[currentImageIndex];
-        const canvasWidth = canvas.width;
-        const canvasHeight = (img.height / img.width) * canvasWidth; // Maintain aspect ratio
-        ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     }
 }
 
@@ -130,9 +127,10 @@ function exportHTMLFile() {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>360° Image Viewer</title>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
           <style>
             body {
-              font-family: Arial, sans-serif;
+              font-family: 'Poppins', sans-serif;
               display: flex;
               justify-content: center;
               align-items: center;
@@ -155,7 +153,6 @@ function exportHTMLFile() {
             let imageElements = [];
             let canvas = document.getElementById('canvas');
             let ctx = canvas.getContext('2d');
-            let dragSpeed = 200;
 
             const imageSrcs = ${JSON.stringify(base64Images)};
             imageSrcs.forEach(src => {
@@ -189,13 +186,14 @@ function exportHTMLFile() {
               const currentX = e.clientX;
               const deltaX = currentX - startX;
 
-              if (Math.abs(deltaX) > dragSpeed / totalImages) {
+              if (Math.abs(deltaX) > 5) { // Add some threshold for better control
                 const direction = deltaX > 0 ? -1 : 1;
                 startX = currentX;
 
                 currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(imageElements[currentImageIndex], 0, 0);
+                const img = imageElements[currentImageIndex];
+                ctx.drawImage(img, 0, 0);
               }
             }
 
@@ -211,7 +209,7 @@ function exportHTMLFile() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = '360_viewer.html'; 
+    a.download = '360_viewer.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
