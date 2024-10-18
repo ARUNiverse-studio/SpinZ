@@ -19,7 +19,7 @@ function generate360View() {
   }
 
   canvas = document.getElementById('canvas');
-  ctx = canvas.getContext('2d');
+  ctx = canvas.getContext('2d', { willReadFrequently: true }); // Added willReadFrequently here
   imageElements = [];
   currentImageIndex = 0;
   totalImages = files.length;
@@ -41,6 +41,7 @@ function generate360View() {
     reader.readAsDataURL(files[i]); // Convert image to Base64
   }
 }
+
 
 function init360Viewer() {
   const canvasWidth = 800; // Set your desired canvas width
