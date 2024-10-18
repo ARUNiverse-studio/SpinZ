@@ -11,7 +11,7 @@ document.getElementById('exportButton').addEventListener('click', exportHTMLFile
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
 function generate360View() {
-  const files = document.getElementById('imageUpload').files; // Get uploaded files
+  const files = document.getElementById('imageUpload').files;
   if (files.length === 0) {
     alert("Please upload images to generate the 360° view.");
     return;
@@ -23,7 +23,7 @@ function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  // Load and store images in the order they are uploaded
+  // Load and store images
   for (let i = 0; i < files.length; i++) {
     const reader = new FileReader();
     reader.onload = function (e) {
