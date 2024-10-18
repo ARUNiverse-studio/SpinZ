@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>spiZ 360° Image Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spiZ 360° Image Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="logo-container">
-      <img src="logo.png" alt="spiZ Logo" class="logo">
+    <div class="container">
+        <div class="logo-container">
+            <img src="logo.png" alt="spiZ Logo" class="logo">
+        </div>
+
+        <h1>spiZ 360° Image Generator</h1>
+
+        <div class="upload-section">
+            <input type="file" id="imageUpload" accept="image/*" multiple>
+            <button id="generateButton">Generate 360° View</button>
+        </div>
+
+        <div id="imagePreview"></div>
+
+        <div id="viewerContainer">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="export-section">
+            <button id="startAgainButton" style="display: none;">Start Again</button>
+            <button id="exportButton" style="display: none;">Export</button>
+            <button id="getEmbedCodeButton" style="display: none;">Get Embed Code</button>
+        </div>
     </div>
-    <h1>spiZ 360° Image Generator</h1>
-    <div class="upload-section">
-      <input type="file" id="imageUpload" multiple accept="image/*">
-      <button id="generateButton">Generate 360° View</button>
-    </div>
-    <div id="imagePreview"></div>
-    <div id="viewerContainer">
-      <canvas id="canvas"></canvas>
-    </div>
-    <div class="export-section">
-      <button id="startAgainButton" style="display: none;">Start Again</button>
-      <button id="exportButton" style="display: none;">Export</button>
-      <button id="getEmbedButton" style="display: none;">Get Embed Code</button> <!-- New Embed Code Button -->
-      <textarea id="embedCodeTextarea" style="display: none;" readonly></textarea> <!-- Embed code text area -->
-      <button id="copyEmbedButton" style="display: none;">Copy Embed Code</button> <!-- Button to copy the code -->
-    </div>
-  </div>
-  <script src="app.js"></script>
+
+    <script src="app.js"></script>
 </body>
 </html>
