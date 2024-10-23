@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boost sales with stunning 360° spin product views</title>
+  <title>360° Image Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f5f6fa;
+      background-color: #f8f9fa;
       color: #333;
       display: flex;
       flex-direction: column;
@@ -21,24 +21,8 @@
 
     .container {
       text-align: center;
-      max-width: 900px;
+      max-width: 1200px;
       padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      margin: 20px auto;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      color: #2c3e50;
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-      color: #7f8c8d;
     }
 
     .upload-section {
@@ -47,22 +31,16 @@
 
     #imageUpload {
       padding: 12px;
-      border: 2px solid #3498db;
+      border: 2px solid #007BFF;
       border-radius: 8px;
       margin-right: 10px;
-      width: 100%;
-      max-width: 300px;
-      outline: none;
       transition: border-color 0.3s ease;
-    }
-
-    #imageUpload:focus {
-      border-color: #2980b9;
+      max-width: 300px;
     }
 
     button {
-      padding: 12px 25px;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #007BFF, #0056b3);
       color: white;
       border: none;
       cursor: pointer;
@@ -73,74 +51,27 @@
     }
 
     button:hover {
-      background: linear-gradient(135deg, #2980b9, #1e70a0);
-      transform: translateY(-2px);
-    }
-
-    button:disabled {
-      background: #bdc3c7;
-      cursor: not-allowed;
+      background: linear-gradient(135deg, #0056b3, #004080);
+      transform: translateY(-3px);
     }
 
     #viewerContainer {
-      margin-top: 30px;
+      margin-top: 50px;
       display: none;
-      position: relative;
     }
 
     canvas {
       width: 100%;
       height: auto;
-      max-width: 800px;
-      margin: 0 auto;
-      border: 2px solid #ecf0f1;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid #ddd;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
-      background-color: #f7f9fb;
-    }
-
-    .export-section {
-      margin-top: 20px;
-    }
-
-    #startAgainButton, #exportButton {
-      display: inline-block;
-      padding: 12px 25px;
-      margin: 5px;
-      background: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    #startAgainButton:hover, #exportButton:hover {
-      background: #c0392b;
-      transform: translateY(-2px);
-    }
-    
-    footer {
-      margin-top: 30px;
-      color: #95a5a6;
-      font-size: 0.9rem;
-    }
-    
-    footer a {
-      color: #3498db;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
+      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Boost sales with stunning 360° spin product views</h1>
-    <p>Create immersive 360° spin product views in seconds, not hours, with spiZ.</p>
     <div class="upload-section">
       <input type="file" id="imageUpload" multiple accept="image/*, .heic">
       <button id="generateButton">Generate 360° View</button>
@@ -154,10 +85,6 @@
       <button id="exportButton" style="display: none;">Export</button>
     </div>
   </div>
-
-  <footer>
-    <p>Powered by <a href="https://spiz.com" target="_blank">spiZ</a></p>
-  </footer>
 
   <!-- Include libheif.js for HEIC conversion -->
   <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
