@@ -4,7 +4,7 @@ let currentImageIndex = 0;
 let totalImages = 0;
 let imageElements = [];
 let canvas, ctx;
-let dragSpeed = 200;
+let dragSpeed = 100; // Lower drag speed for smoother transitions
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
@@ -28,7 +28,7 @@ function generate360View() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const img = new Image();
-      img.src = e.target.result; 
+      img.src = e.target.result;
       img.onload = () => {
         imageElements.push(img);
         if (imageElements.length === totalImages) {
@@ -36,12 +36,12 @@ function generate360View() {
         }
       };
     };
-    reader.readAsDataURL(files[i]); 
+    reader.readAsDataURL(files[i]);
   }
 }
 
 function init360Viewer() {
-  const canvasWidth = 800; 
+  const canvasWidth = 800;
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
@@ -49,7 +49,7 @@ function init360Viewer() {
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
-  document.getElementById('startAgainButton').style.display = 'block'; 
+  document.getElementById('startAgainButton').style.display = 'block';
 
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
@@ -114,6 +114,19 @@ function exportHTMLFile() {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>360° Image Viewer</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        canvas {
+          width: 80%;
+          height: auto;
+        }
+      </style>
     </head>
     <body>
       <canvas id="canvas"></canvas>
@@ -121,8 +134,8 @@ function exportHTMLFile() {
         let imageElements = [];
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        
         const imageSrcs = ${JSON.stringify(base64Images)};
+        
         imageSrcs.forEach(src => {
           const img = new Image();
           img.src = src;
@@ -146,4 +159,8 @@ function exportHTMLFile() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+
+  // Display embed code to the user
+  document.getElementById('embedCodeSection').style.display = 'block';
+  document.getElementById('embedCode').value = htmlContent;
 }
