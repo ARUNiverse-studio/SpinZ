@@ -1,3 +1,4 @@
+```css
 /* Global Reset */
 * {
   margin: 0;
@@ -19,7 +20,7 @@ body {
 /* Workspace Container */
 .workspace {
   width: 100%;
-  max-width: 600px; /* Limit size for easy embedding */
+  max-width: 600px;
   margin: 0 auto;
   text-align: center;
   padding: 20px;
@@ -99,3 +100,4 @@ canvas {
   align-items: center;
   margin-top: 20px;
 }
+```
