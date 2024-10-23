@@ -6,22 +6,9 @@ let imageElements = [];
 let canvas, ctx;
 let dragSpeed = 200;
 
-document.getElementById('nextButtonStep1').addEventListener('click', step1Complete);
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
-
-function step1Complete() {
-  const files = document.getElementById('imageUpload').files;
-  if (files.length === 0) {
-    alert("Please upload images to proceed.");
-    return;
-  }
-
-  // Show the viewer container and Generate button
-  document.getElementById('viewerContainer').style.display = 'block';
-  document.getElementById('nextButtonStep2').style.display = 'inline-block';
-}
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
@@ -36,6 +23,7 @@ function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
+  // Load and store images
   for (let i = 0; i < files.length; i++) {
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -53,11 +41,15 @@ function generate360View() {
 }
 
 function init360Viewer() {
-  const canvasWidth = 800;
+  const canvasWidth = Math.min(window.innerWidth * 0.9, 800);
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
+
+  document.getElementById('viewerContainer').style.display = 'block';
+  document.getElementById('exportButton').style.display = 'block';
+  document.getElementById('startAgainButton').style.display = 'block';
 
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
@@ -68,11 +60,6 @@ function init360Viewer() {
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
-
-  // Show the export step button after generating the viewer
-  document.getElementById('step3').style.display = 'block';
-  document.getElementById('exportButton').style.display = 'inline-block';
-  document.getElementById('startAgainButton').style.display = 'inline-block';
 }
 
 function startDragging(e) {
@@ -96,7 +83,9 @@ function onDragging(e) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const img = imageElements[currentImageIndex];
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const canvasWidth = canvas.width;
+    const canvasHeight = (img.height / img.width) * canvasWidth;
+    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
   }
 }
 
@@ -112,10 +101,9 @@ function startAgain() {
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
+
   document.getElementById('imageUpload').value = '';
 
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   alert("All images have been cleared.");
@@ -149,8 +137,60 @@ function exportHTMLFile() {
     <body>
       <canvas id="canvas"></canvas>
       <script>
-        // JavaScript to recreate the 360° viewer
-        ...
+        let isDragging = false;
+        let startX = 0;
+        let currentImageIndex = 0;
+        let totalImages = ${totalImages};
+        let imageElements = [];
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        let dragSpeed = 200;
+
+        const imageSrcs = ${JSON.stringify(base64Images)};
+        imageSrcs.forEach(src => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => {
+            imageElements.push(img);
+            if (imageElements.length === totalImages) {
+              initViewer();
+            }
+          };
+        });
+
+        function initViewer() {
+          canvas.width = imageElements[0].width;
+          canvas.height = imageElements[0].height;
+          ctx.drawImage(imageElements[0], 0, 0);
+
+          canvas.addEventListener('mousedown', startDragging);
+          canvas.addEventListener('mousemove', onDragging);
+          canvas.addEventListener('mouseup', stopDragging);
+        }
+
+        function startDragging(e) {
+          isDragging = true;
+          startX = e.clientX;
+        }
+
+        function onDragging(e) {
+          if (!isDragging) return;
+          const currentX = e.clientX;
+          const deltaX = currentX - startX;
+
+          if (Math.abs(deltaX) > dragSpeed / totalImages) {
+            const direction = deltaX > 0 ? -1 : 1;
+            startX = currentX;
+
+            currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
+          }
+        }
+
+        function stopDragging() {
+          isDragging = false;
+        }
       </script>
     </body>
     </html>
