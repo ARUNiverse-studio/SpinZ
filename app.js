@@ -4,12 +4,11 @@ let currentImageIndex = 0;
 let totalImages = 0;
 let imageElements = [];
 let canvas, ctx;
-let dragSpeed = 200; // Higher value means slower drag speed for smooth rotation
+let dragSpeed = 200;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
-document.getElementById('getEmbedCodeButton').addEventListener('click', getEmbedCode);
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
@@ -29,7 +28,7 @@ function generate360View() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const img = new Image();
-      img.src = e.target.result; // Base64 encoded image
+      img.src = e.target.result; 
       img.onload = () => {
         imageElements.push(img);
         if (imageElements.length === totalImages) {
@@ -37,46 +36,40 @@ function generate360View() {
         }
       };
     };
-    reader.readAsDataURL(files[i]); // Convert image to Base64
+    reader.readAsDataURL(files[i]); 
   }
 }
 
 function init360Viewer() {
-  const canvasWidth = 800; // Set your desired canvas width
-  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
+  const canvasWidth = 800; 
+  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
-  document.getElementById('startAgainButton').style.display = 'block';
-  document.getElementById('getEmbedCodeButton').style.display = 'block';
+  document.getElementById('startAgainButton').style.display = 'block'; 
 
-  // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
-  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mouseleave', stopDragging);
-  canvas.addEventListener('touchstart', startDragging);
-  canvas.addEventListener('touchmove', onDragging);
-  canvas.addEventListener('touchend', stopDragging);
 }
 
 function startDragging(e) {
   e.preventDefault();
   isDragging = true;
-  startX = e.clientX || e.touches[0].clientX;
+  startX = e.clientX;
 }
 
 function onDragging(e) {
   e.preventDefault();
   if (!isDragging) return;
 
-  const currentX = e.clientX || e.touches[0].clientX;
+  const currentX = e.clientX;
   const deltaX = currentX - startX;
 
   if (Math.abs(deltaX) > dragSpeed / totalImages) {
@@ -105,15 +98,10 @@ function startAgain() {
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
-  document.getElementById('getEmbedCodeButton').style.display = 'none';
 
   document.getElementById('imageUpload').value = '';
 
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  alert("All images have been cleared.");
 }
 
 function exportHTMLFile() {
@@ -126,79 +114,25 @@ function exportHTMLFile() {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>360° Image Viewer</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: #f4f4f9;
-        }
-        canvas {
-          width: 80%;
-          height: auto;
-        }
-      </style>
     </head>
     <body>
       <canvas id="canvas"></canvas>
       <script>
-        let isDragging = false;
-        let startX = 0;
-        let currentImageIndex = 0;
-        let totalImages = ${totalImages};
         let imageElements = [];
-        let canvas = document.getElementById('canvas');
-        let ctx = canvas.getContext('2d');
-        let dragSpeed = 200;
-
-        // Load and store images
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
         const imageSrcs = ${JSON.stringify(base64Images)};
         imageSrcs.forEach(src => {
           const img = new Image();
           img.src = src;
           img.onload = () => {
             imageElements.push(img);
-            if (imageElements.length === totalImages) {
-              initViewer();
+            if (imageElements.length === ${totalImages}) {
+              ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
             }
           };
         });
-
-        function initViewer() {
-          canvas.width = imageElements[0].width;
-          canvas.height = imageElements[0].height;
-          ctx.drawImage(imageElements[0], 0, 0);
-
-          canvas.addEventListener('mousedown', startDragging);
-          canvas.addEventListener('mousemove', onDragging);
-          canvas.addEventListener('mouseup', stopDragging);
-        }
-
-        function startDragging(e) {
-          isDragging = true;
-          startX = e.clientX;
-        }
-
-        function onDragging(e) {
-          if (!isDragging) return;
-          const currentX = e.clientX;
-          const deltaX = currentX - startX;
-
-          if (Math.abs(deltaX) > dragSpeed / totalImages) {
-            const direction = deltaX > 0 ? -1 : 1;
-            startX = currentX;
-
-            currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
-          }
-        }
-
-        function stopDragging() {
-          isDragging = false;
-        }
       </script>
     </body>
     </html>
@@ -212,127 +146,4 @@ function exportHTMLFile() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-}
-
-function getEmbedCode() {
-  if (imageElements.length === 0) {
-    alert("Please generate a 360° view first.");
-    return;
-  }
-
-  const embedCode = generateEmbedCode();
-  
-  // Create a modal to display the embed code
-  const modal = document.createElement('div');
-  modal.style.position = 'fixed';
-  modal.style.left = '0';
-  modal.style.top = '0';
-  modal.style.width = '100%';
-  modal.style.height = '100%';
-  modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-  modal.style.display = 'flex';
-  modal.style.justifyContent = 'center';
-  modal.style.alignItems = 'center';
-
-  const modalContent = document.createElement('div');
-  modalContent.style.backgroundColor = '#fff';
-  modalContent.style.padding = '20px';
-  modalContent.style.borderRadius = '5px';
-  modalContent.style.maxWidth = '80%';
-
-  const closeButton = document.createElement('button');
-  closeButton.textContent = 'Close';
-  closeButton.style.marginTop = '10px';
-  closeButton.addEventListener('click', () => document.body.removeChild(modal));
-
-  const embedTextarea = document.createElement('textarea');
-  embedTextarea.value = embedCode;
-  embedTextarea.style.width = '100%';
-  embedTextarea.style.height = '200px';
-  embedTextarea.style.marginBottom = '10px';
-
-  modalContent.appendChild(embedTextarea);
-  modalContent.appendChild(closeButton);
-  modal.appendChild(modalContent);
-
-  document.body.appendChild(modal);
-}
-
-function generateEmbedCode() {
-  // Generate a unique ID for this 360 view
-  const viewId = 'view_' + Date.now();
-  
-  // Here, you would typically save the images to your server and get their URLs
-  // For this example, we'll assume a server endpoint that serves these images
-  const imageUrls = imageElements.map((_, index) => `/api/360-images/${viewId}/${index}`);
-
-  const embedCode = `
-<div id="spiZ360Viewer_${viewId}" style="width:100%;max-width:800px;margin:0 auto;">
-  <canvas id="spiZ360Canvas_${viewId}"></canvas>
-</div>
-<script src="https://your-domain.com/spiZ360Viewer.js"></script>
-<script>
-  new SpiZ360Viewer('spiZ360Viewer_${viewId}', ${JSON.stringify(imageUrls)});
-</script>
-`;
-
-  return embedCode;
-}
-
-// Note: The following function should be in a separate file named spiZ360Viewer.js
-// It's included here for completeness, but should be moved to its own file in production
-function SpiZ360Viewer(containerId, imageUrls) {
-  const container = document.getElementById(containerId);
-  const canvas = container.querySelector('canvas');
-  const ctx = canvas.getContext('2d');
-  let currentIndex = 0;
-  let isDragging = false;
-  let startX;
-  const imageElements = [];
-
-  function loadImages() {
-    imageUrls.forEach(url => {
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        imageElements.push(img);
-        if (imageElements.length === imageUrls.length) {
-          initViewer();
-        }
-      };
-    });
-  }
-
-  function initViewer() {
-    canvas.width = imageElements[0].width;
-    canvas.height = imageElements[0].height;
-    ctx.drawImage(imageElements[0], 0, 0);
-
-    canvas.addEventListener('mousedown', startDragging);
-    canvas.addEventListener('mousemove', onDragging);
-    canvas.addEventListener('mouseup', stopDragging);
-    canvas.addEventListener('mouseleave', stopDragging);
-  }
-
-  function startDragging(e) {
-    isDragging = true;
-    startX = e.clientX;
-  }
-
-  function onDragging(e) {
-    if (!isDragging) return;
-    const deltaX = e.clientX - startX;
-    if (Math.abs(deltaX) > 5) {
-      currentIndex = (currentIndex + (deltaX > 0 ? 1 : -1) + imageElements.length) % imageElements.length;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(imageElements[currentIndex], 0, 0);
-      startX = e.clientX;
-    }
-  }
-
-  function stopDragging() {
-    isDragging = false;
-  }
-
-  loadImages();
 }
