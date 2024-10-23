@@ -11,7 +11,7 @@
   <div class="container">
     <h1>360° Image Generator</h1>
     <div class="upload-section">
-      <input type="file" id="imageUpload" multiple accept="image/*">
+      <input type="file" id="imageUpload" multiple accept="image/*, .heic">
       <button id="generateButton">Generate 360° View</button>
     </div>
     <div id="imagePreview"></div>
@@ -23,6 +23,9 @@
       <button id="exportButton" style="display: none;">Export</button>
     </div>
   </div>
+
+  <!-- Include the heic2any library -->
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.3/dist/heic2any.min.js"></script>
   <script src="app.js"></script> <!-- Link to the JS file -->
 </body>
 </html>
