@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
+      background-color: #f5f6fa;
       color: #333;
       display: flex;
       flex-direction: column;
@@ -21,19 +21,24 @@
 
     .container {
       text-align: center;
-      max-width: 1200px;
+      max-width: 900px;
       padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 20px auto;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 10px;
+      color: #2c3e50;
     }
 
     p {
       font-size: 1.2rem;
-      margin-bottom: 20px;
-      color: #666;
+      margin-bottom: 30px;
+      color: #7f8c8d;
     }
 
     .upload-section {
@@ -42,16 +47,22 @@
 
     #imageUpload {
       padding: 12px;
-      border: 2px solid #007BFF;
+      border: 2px solid #3498db;
       border-radius: 8px;
       margin-right: 10px;
-      transition: border-color 0.3s ease;
+      width: 100%;
       max-width: 300px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    #imageUpload:focus {
+      border-color: #2980b9;
     }
 
     button {
-      padding: 12px 20px;
-      background: linear-gradient(135deg, #007BFF, #0056b3);
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
       color: white;
       border: none;
       cursor: pointer;
@@ -62,22 +73,67 @@
     }
 
     button:hover {
-      background: linear-gradient(135deg, #0056b3, #004080);
-      transform: translateY(-3px);
+      background: linear-gradient(135deg, #2980b9, #1e70a0);
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #bdc3c7;
+      cursor: not-allowed;
     }
 
     #viewerContainer {
-      margin-top: 50px;
+      margin-top: 30px;
       display: none;
+      position: relative;
     }
 
     canvas {
       width: 100%;
       height: auto;
-      border: 1px solid #ddd;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 0 auto;
+      border: 2px solid #ecf0f1;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       border-radius: 10px;
-      background-color: #f9f9f9;
+      background-color: #f7f9fb;
+    }
+
+    .export-section {
+      margin-top: 20px;
+    }
+
+    #startAgainButton, #exportButton {
+      display: inline-block;
+      padding: 12px 25px;
+      margin: 5px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    #startAgainButton:hover, #exportButton:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+    }
+    
+    footer {
+      margin-top: 30px;
+      color: #95a5a6;
+      font-size: 0.9rem;
+    }
+    
+    footer a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -98,6 +154,10 @@
       <button id="exportButton" style="display: none;">Export</button>
     </div>
   </div>
+
+  <footer>
+    <p>Powered by <a href="https://spiz.com" target="_blank">spiZ</a></p>
+  </footer>
 
   <!-- Include libheif.js for HEIC conversion -->
   <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
