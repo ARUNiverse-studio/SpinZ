@@ -46,30 +46,64 @@ function loadImages(files) {
     const promises = [];
 
     for (let i = 0; i < files.length; i++) {
-      promises.push(new Promise((resolve, reject) => {
-        const reader = new FileReader();
+      promises.push(new Promise(async (resolve, reject) => {
+        const file = files[i];
 
-        reader.onload = function (e) {
-          const img = new Image();
-          img.src = e.target.result;
+        // Check if the file is a HEIC image
+        if (file.type === 'image/heic') {
+          try {
+            // Convert HEIC to another format (JPEG or PNG)
+            const blob = await heic2any({
+              blob: file,
+              toType: "image/jpeg",  // You can change to "image/png" if preferred
+              quality: 0.9
+            });
 
-          img.onload = () => {
-            console.log(`Image ${i + 1} loaded successfully.`); // Log each image success
-            resolve(img);
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const img = new Image();
+              img.src = e.target.result;
+              img.onload = () => {
+                console.log(`HEIC image ${i + 1} converted and loaded successfully.`);
+                resolve(img);
+              };
+              img.onerror = (err) => {
+                console.error(`Error loading converted HEIC image ${i + 1}:`, err);
+                reject(new Error(`Failed to load converted HEIC image ${i + 1}`));
+              };
+            };
+            reader.onerror = (err) => {
+              console.error(`Error reading converted HEIC file ${i + 1}:`, err);
+              reject(new Error(`Failed to read converted HEIC file ${i + 1}`));
+            };
+            reader.readAsDataURL(blob);
+          } catch (error) {
+            console.error(`Error converting HEIC file ${i + 1}:`, error);
+            reject(new Error(`Failed to convert HEIC file ${i + 1}`));
+          }
+        } else {
+          // Handle non-HEIC images
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+              console.log(`Image ${i + 1} loaded successfully.`);
+              resolve(img);
+            };
+            img.onerror = (err) => {
+              console.error(`Error loading image ${i + 1}:`, err);
+              reject(new Error(`Failed to load image ${i + 1} (File: ${file.name})`));
+            };
           };
 
-          img.onerror = (err) => {
-            console.error(`Error loading image ${i + 1}:`, err); // Log specific image load errors
-            reject(new Error(`Failed to load image ${i + 1} (File: ${files[i].name})`));
+          reader.onerror = (err) => {
+            console.error(`Error reading file ${i + 1}:`, err);
+            reject(new Error(`Failed to read file ${i + 1} (File: ${file.name})`));
           };
-        };
 
-        reader.onerror = (err) => {
-          console.error(`Error reading file ${i + 1}:`, err); // Log FileReader errors
-          reject(new Error(`Failed to read file ${i + 1} (File: ${files[i].name})`));
-        };
-
-        reader.readAsDataURL(files[i]); // Read file as Base64
+          reader.readAsDataURL(file); // Read file as Base64
+        }
       }));
     }
 
