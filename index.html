@@ -85,6 +85,15 @@
       <button id="exportButton" style="display: none;">Export</button>
     </div>
   </div>
+<script>
+  function sendHeightToParent() {
+    var height = document.body.scrollHeight; // Get the page height
+    window.parent.postMessage(height, "*"); // Send the height to the parent
+  }
+
+  window.onload = sendHeightToParent; // Send height when the page loads
+  window.onresize = sendHeightToParent; // Send height when the page resizes
+</script>
 
   <!-- Include libheif.js for HEIC conversion -->
   <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
