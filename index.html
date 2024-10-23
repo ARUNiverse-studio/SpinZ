@@ -3,13 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>360° Image Generator</title>
+  <title>360° Image Generator with HEIC Support</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <!-- Link to the correct stylesheet -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .upload-section {
+      margin-bottom: 20px;
+    }
+
+    #imageUpload {
+      padding: 12px;
+      border: 2px solid #007BFF;
+      border-radius: 8px;
+      margin-right: 10px;
+      transition: border-color 0.3s ease;
+      max-width: 300px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #007BFF, #0056b3);
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 10px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #004080);
+      transform: translateY(-3px);
+    }
+
+    #viewerContainer {
+      margin-top: 50px;
+      display: none;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>360° Image Generator</h1>
+    <h1>360° Image Generator with HEIC Support</h1>
     <div class="upload-section">
       <input type="file" id="imageUpload" multiple accept="image/*, .heic">
       <button id="generateButton">Generate 360° View</button>
@@ -24,8 +92,8 @@
     </div>
   </div>
 
-  <!-- Include the heic2any library -->
-  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.3/dist/heic2any.min.js"></script>
-  <script src="app.js"></script> <!-- Link to the JS file -->
+  <!-- Include libheif.js for HEIC conversion -->
+  <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
+  <script src="app.js"></script> <!-- Link to the JavaScript file -->
 </body>
 </html>
