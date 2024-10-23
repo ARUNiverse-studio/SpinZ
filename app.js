@@ -29,13 +29,15 @@ async function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
+  console.log(`Total images to load: ${totalImages}`); // Log the number of images
+
   // Load and store images asynchronously
   try {
     imageElements = await loadImages(files);
     init360Viewer();
   } catch (error) {
     alert("An error occurred while loading the images.");
-    console.error(error);
+    console.error("Detailed error information: ", error);
   }
 }
 
@@ -46,16 +48,28 @@ function loadImages(files) {
     for (let i = 0; i < files.length; i++) {
       promises.push(new Promise((resolve, reject) => {
         const reader = new FileReader();
+
         reader.onload = function (e) {
           const img = new Image();
           img.src = e.target.result;
+
           img.onload = () => {
+            console.log(`Image ${i + 1} loaded successfully.`); // Log each image success
             resolve(img);
           };
-          img.onerror = reject;
+
+          img.onerror = (err) => {
+            console.error(`Error loading image ${i + 1}:`, err); // Log specific image load errors
+            reject(new Error(`Failed to load image ${i + 1}`));
+          };
         };
-        reader.onerror = reject;
-        reader.readAsDataURL(files[i]);
+
+        reader.onerror = (err) => {
+          console.error(`Error reading file ${i + 1}:`, err); // Log FileReader errors
+          reject(new Error(`Failed to read file ${i + 1}`));
+        };
+
+        reader.readAsDataURL(files[i]); // Read file as Base64
       }));
     }
 
@@ -66,6 +80,11 @@ function loadImages(files) {
 }
 
 function init360Viewer() {
+  if (imageElements.length === 0) {
+    alert("No images available to display.");
+    return;
+  }
+
   const canvasWidth = Math.min(window.innerWidth * 0.9, 800); // Responsive width
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
@@ -83,7 +102,7 @@ function init360Viewer() {
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mouseleave', stopDragging); // Stop dragging if the mouse leaves the canvas
+  canvas.addEventListener('mouseleave', stopDragging);
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
