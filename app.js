@@ -1,3 +1,4 @@
+```javascript
 let isDragging = false;
 let startX = 0;
 let currentImageIndex = 0;
@@ -10,7 +11,7 @@ document.getElementById('generateButton').addEventListener('click', generate360V
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
-function generate360View() {
+async function generate360View() {
   const files = document.getElementById('imageUpload').files;
   if (files.length === 0) {
     alert("Please upload images to generate the 360° view.");
@@ -27,20 +28,30 @@ function generate360View() {
   totalImages = files.length;
 
   for (let i = 0; i < files.length; i++) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const img = new Image();
-      img.src = e.target.result;
-      img.onload = () => {
-        imageElements.push(img);
-        if (imageElements.length === totalImages) {
-          init360Viewer();
-          // Hide loading spinner
-          document.getElementById('loadingSpinner').style.display = 'none';
-        }
+    try {
+      // Compress the image
+      const compressedFile = await imageCompression(files[i], {
+        maxSizeMB: 0.2,  // Set maximum size to 200KB
+        maxWidthOrHeight: 800,  // Set maximum dimensions
+        useWebWorker: true
+      });
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+          imageElements.push(img);
+          if (imageElements.length === totalImages) {
+            init360Viewer();
+            document.getElementById('loadingSpinner').style.display = 'none';
+          }
+        };
       };
-    };
-    reader.readAsDataURL(files[i]);
+      reader.readAsDataURL(compressedFile);
+    } catch (error) {
+      console.error("Error while compressing images: ", error);
+    }
   }
 }
 
@@ -109,4 +120,52 @@ function debounce(func, delay) {
       func.apply(this, args);
     }, delay);
   };
+}
+
+function startAgain() {
+  imageElements = [];
+  currentImageIndex = 0;
+  totalImages = 0;
+
+  document.getElementById('viewerContainer').style.display = 'none';
+  document.getElementById('exportButton').style.display = 'none';
+  document.getElementById('startAgainButton').style.display = 'none';
+
+  document.getElementById('imageUpload').value = '';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  alert("All images have been cleared.");
+}
+
+function exportHTMLFile() {
+  let base64Images = imageElements.map(img => img.src);
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>360° Image Viewer</title>
+    </head>
+    <body>
+      <canvas id="canvas"></canvas>
+      <script>
+        let imageSrcs = ${JSON.stringify(base64Images)};
+        // Similar logic as implemented above for generating the viewer
+      </script>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '360_viewer.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+```
 }
