@@ -17,6 +17,62 @@ body {
   padding: 20px;
 }
 
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #007BFF;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ddd;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+.login-btn {
+  padding: 10px 20px;
+  background-color: white;
+  color: #007BFF;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #ddd;
+}
+
 /* Main Container */
 .container {
   width: 90%;
@@ -33,19 +89,6 @@ body {
 .container:hover {
   transform: scale(1.02);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Logo Styling */
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logo {
-  width: 150px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
 }
 
 /* Title */
@@ -65,8 +108,8 @@ h1 {
   border: 2px solid #007BFF;
   border-radius: 8px;
   margin-right: 10px;
-  width: calc(100% - 120px);
-  max-width: 300px;
+  width: calc(100% - 120px); /* Make it responsive */
+  max-width: 300px; /* Limit max width for larger screens */
   transition: border-color 0.3s ease;
 }
 
@@ -86,9 +129,9 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: auto;
-  max-width: 200px;
-  margin-top: 10px;
+  width: auto; /* Set width to auto to avoid stretching */
+  max-width: 200px; /* Maximum width for desktop view */
+  margin-top: 10px; /* Spacing between buttons */
 }
 
 button:hover {
@@ -113,19 +156,27 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Export Section */
+/* Start Again and Export Buttons in Bottom-Right Corner */
 .export-section {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  height: auto;
+  display: flex; /* Use flexbox for button layout */
+  justify-content: center; /* Center the buttons */
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center items horizontally */
+  position: relative; /* Relative position for button positioning */
+  height: auto; /* Let the height adjust automatically */
 }
 
 /* Start Again Button */
 #startAgainButton {
-  background: linear-gradient(135deg, #FF6347, #FF4500);
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #startAgainButton:hover {
@@ -134,20 +185,19 @@ canvas {
 
 /* Export Button */
 #exportButton {
+  padding: 12px 25px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #exportButton:hover {
   background: linear-gradient(135deg, #0056b3, #004080);
-}
-
-/* Get Embed Code Button */
-#getEmbedCodeButton {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
-}
-
-#getEmbedCodeButton:hover {
-  background: linear-gradient(135deg, #45a049, #3d8b3d);
 }
 
 /* Responsive Design for Small Screens */
@@ -161,15 +211,16 @@ canvas {
   }
 
   #imageUpload {
-    width: 100%;
-    margin-bottom: 10px;
+    width: 100%; /* Full width on small screens */
+    margin-bottom: 10px; /* Add margin below input */
   }
 
   .logo {
-    width: 120px;
+    width: 120px; /* Smaller logo size on mobile */
   }
 
+  /* Ensure buttons are full width on small screens */
   button {
-    width: 100%;
+    width: 100%; /* Make buttons full width on small screens */
   }
 }
