@@ -12,8 +12,14 @@ document.getElementById('startAgainButton').addEventListener('click', startAgain
 
 function generate360View() {
   const files = document.getElementById('imageUpload').files;
+  
   if (files.length === 0) {
     alert("Please upload images to generate the 360° view.");
+    return;
+  }
+
+  if (files.length > 80) {
+    alert("Please upload no more than 80 images.");
     return;
   }
 
@@ -41,8 +47,8 @@ function generate360View() {
 }
 
 function init360Viewer() {
-  const canvasWidth = Math.min(window.innerWidth * 0.9, 800);
-  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
+  const canvasWidth = Math.min(window.innerWidth * 0.9, 800); // Responsive width
+  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
@@ -51,12 +57,14 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
+  // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
+  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
-  canvas.addEventListener('mouseleave', stopDragging);
+  canvas.addEventListener('mouseleave', stopDragging); // Stop dragging if the mouse leaves the canvas
   canvas.addEventListener('touchstart', startDragging);
   canvas.addEventListener('touchmove', onDragging);
   canvas.addEventListener('touchend', stopDragging);
@@ -76,7 +84,7 @@ function onDragging(e) {
   const deltaX = currentX - startX;
 
   if (Math.abs(deltaX) > dragSpeed / totalImages) {
-    const direction = deltaX > 0 ? -1 : 1;
+    const direction = deltaX > 0 ? -1 : 1; // Negative for left, positive for right
     startX = currentX;
 
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
@@ -84,7 +92,7 @@ function onDragging(e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const img = imageElements[currentImageIndex];
     const canvasWidth = canvas.width;
-    const canvasHeight = (img.height / img.width) * canvasWidth;
+    const canvasHeight = (img.height / img.width) * canvasWidth; // Maintain aspect ratio
     ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
   }
 }
@@ -109,6 +117,7 @@ function startAgain() {
   alert("All images have been cleared.");
 }
 
+// Export HTML file with embedded images in Base64
 function exportHTMLFile() {
   let base64Images = imageElements.map(img => img.src);
 
