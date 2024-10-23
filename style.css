@@ -9,12 +9,7 @@ body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #f8f9fa, #e9ecef);
   color: #333;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  padding: 20px;
 }
 
 /* Navigation Bar */
@@ -22,20 +17,28 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 10px 20px;
   background-color: #007BFF;
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+}
+
+.logo-container {
+  flex: 1;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
+  flex: 2;
+  justify-content: flex-end;
+  gap: 20px;
 }
 
 .nav-links li {
-  margin-right: 20px;
+  margin: 0 10px;
 }
 
 .nav-links a {
@@ -49,24 +52,20 @@ body {
   color: #ddd;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
 .logo {
   width: 120px;
   height: auto;
 }
 
 .login-btn {
-  padding: 10px 20px;
+  padding: 8px 15px;
   background-color: white;
   color: #007BFF;
   border-radius: 8px;
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  margin-left: 20px;
 }
 
 .login-btn:hover {
@@ -77,18 +76,12 @@ body {
 .container {
   width: 90%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 50px auto 0;
   text-align: center;
   padding: 40px;
   background-color: #fff;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.container:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* Title */
@@ -108,8 +101,8 @@ h1 {
   border: 2px solid #007BFF;
   border-radius: 8px;
   margin-right: 10px;
-  width: calc(100% - 120px); /* Make it responsive */
-  max-width: 300px; /* Limit max width for larger screens */
+  width: calc(100% - 120px);
+  max-width: 300px;
   transition: border-color 0.3s ease;
 }
 
@@ -129,9 +122,7 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: auto; /* Set width to auto to avoid stretching */
-  max-width: 200px; /* Maximum width for desktop view */
-  margin-top: 10px; /* Spacing between buttons */
+  margin-top: 10px;
 }
 
 button:hover {
@@ -146,7 +137,6 @@ button:hover {
   display: none;
 }
 
-/* Canvas Styling */
 canvas {
   width: 100%;
   height: auto;
@@ -156,71 +146,36 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Start Again and Export Buttons in Bottom-Right Corner */
+/* Start Again and Export Buttons */
 .export-section {
-  display: flex; /* Use flexbox for button layout */
-  justify-content: center; /* Center the buttons */
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: center; /* Center items horizontally */
-  position: relative; /* Relative position for button positioning */
-  height: auto; /* Let the height adjust automatically */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-/* Start Again Button */
-#startAgainButton {
+#startAgainButton,
+#exportButton {
   padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
-  color: white;
-  border: none;
-  cursor: pointer;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#startAgainButton {
+  background: linear-gradient(135deg, #FF6347, #FF4500);
+  color: white;
 }
 
 #startAgainButton:hover {
   background: linear-gradient(135deg, #FF4500, #CC3700);
 }
 
-/* Export Button */
 #exportButton {
-  padding: 12px 25px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
   color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #exportButton:hover {
   background: linear-gradient(135deg, #0056b3, #004080);
-}
-
-/* Responsive Design for Small Screens */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  .container {
-    padding: 20px;
-  }
-
-  #imageUpload {
-    width: 100%; /* Full width on small screens */
-    margin-bottom: 10px; /* Add margin below input */
-  }
-
-  .logo {
-    width: 120px; /* Smaller logo size on mobile */
-  }
-
-  /* Ensure buttons are full width on small screens */
-  button {
-    width: 100%; /* Make buttons full width on small screens */
-  }
 }
