@@ -60,13 +60,13 @@ function loadImages(files) {
 
           img.onerror = (err) => {
             console.error(`Error loading image ${i + 1}:`, err); // Log specific image load errors
-            reject(new Error(`Failed to load image ${i + 1}`));
+            reject(new Error(`Failed to load image ${i + 1} (File: ${files[i].name})`));
           };
         };
 
         reader.onerror = (err) => {
           console.error(`Error reading file ${i + 1}:`, err); // Log FileReader errors
-          reject(new Error(`Failed to read file ${i + 1}`));
+          reject(new Error(`Failed to read file ${i + 1} (File: ${files[i].name})`));
         };
 
         reader.readAsDataURL(files[i]); // Read file as Base64
