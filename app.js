@@ -10,9 +10,9 @@ document.getElementById('generateButton').addEventListener('click', generate360V
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
-function generate360View() {
+async function generate360View() {
   const files = document.getElementById('imageUpload').files;
-  
+
   if (files.length === 0) {
     alert("Please upload images to generate the 360° view.");
     return;
@@ -29,26 +29,45 @@ function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  // Load and store images
-  for (let i = 0; i < files.length; i++) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const img = new Image();
-      img.src = e.target.result;
-      img.onload = () => {
-        imageElements.push(img);
-        if (imageElements.length === totalImages) {
-          init360Viewer();
-        }
-      };
-    };
-    reader.readAsDataURL(files[i]);
+  // Load and store images asynchronously
+  try {
+    imageElements = await loadImages(files);
+    init360Viewer();
+  } catch (error) {
+    alert("An error occurred while loading the images.");
+    console.error(error);
   }
+}
+
+function loadImages(files) {
+  return new Promise((resolve, reject) => {
+    const promises = [];
+
+    for (let i = 0; i < files.length; i++) {
+      promises.push(new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            resolve(img);
+          };
+          img.onerror = reject;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(files[i]);
+      }));
+    }
+
+    Promise.all(promises)
+      .then(images => resolve(images))
+      .catch(error => reject(error));
+  });
 }
 
 function init360Viewer() {
   const canvasWidth = Math.min(window.innerWidth * 0.9, 800); // Responsive width
-  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth; // Maintain aspect ratio
+  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
@@ -92,7 +111,7 @@ function onDragging(e) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const img = imageElements[currentImageIndex];
     const canvasWidth = canvas.width;
-    const canvasHeight = (img.height / img.width) * canvasWidth; // Maintain aspect ratio
+    const canvasHeight = (img.height / img.width) * canvasWidth;
     ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
   }
 }
