@@ -5,23 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>spiZ 360° Image Generator</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"> <!-- Link to the correct stylesheet -->
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="logo-container">
-      <a href="#"><img src="logo.png" alt="spiZ Logo" class="logo"></a>
-    </div>
-    <ul class="nav-links">
-      <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact Us</a></li>
-    </ul>
-    <a href="#login" class="login-btn">Login</a>
-  </nav>
-
   <div class="container">
+    <div class="logo-container">
+      <img src="logo.png" alt="spiZ Logo" class="logo"> <!-- Ensure the image source is correct -->
+    </div>
     <h1>spiZ 360° Image Generator</h1>
     <div class="upload-section">
       <input type="file" id="imageUpload" multiple accept="image/*">
@@ -32,17 +22,10 @@
       <canvas id="canvas"></canvas>
     </div>
     <div class="export-section">
-      <button id="startAgainButton" style="display: none;">Start Again</button>
-      <button id="exportButton" style="display: none;">Export</button>
-    </div>
-
-    <!-- Embed Code Section -->
-    <div id="embedCodeSection" style="display: none;">
-      <h3>Embed Code:</h3>
-      <textarea id="embedCode" rows="5" cols="50" readonly></textarea>
+      <button id="startAgainButton" style="display: none;">Start Again</button> <!-- Updated "Start Again" button -->
+      <button id="exportButton" style="display: none;">Export</button> <!-- Existing Export Button -->
     </div>
   </div>
-
   <script src="app.js"></script> <!-- Link to the JS file -->
 </body>
 </html>
