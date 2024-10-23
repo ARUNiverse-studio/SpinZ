@@ -10,6 +10,9 @@ document.getElementById('generateButton').addEventListener('click', generate360V
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
+// Initialize HEIF decoder (from libheif.js)
+let heif = new libheif.Heif();
+
 async function generate360View() {
   const files = document.getElementById('imageUpload').files;
 
@@ -29,9 +32,8 @@ async function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  console.log(`Total images to load: ${totalImages}`); // Log the number of images
+  console.log(`Total images to load: ${totalImages}`);
 
-  // Load and store images asynchronously
   try {
     imageElements = await loadImages(files);
     init360Viewer();
@@ -46,40 +48,20 @@ function loadImages(files) {
     const promises = [];
 
     for (let i = 0; i < files.length; i++) {
-      promises.push(new Promise(async (resolve, reject) => {
+      promises.push(new Promise((resolve, reject) => {
         const file = files[i];
 
         // Check if the file is a HEIC image
         if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
-          try {
-            // Instead of using heic2any, let's directly load the image as a blob.
-            const convertedBlob = await convertHEICtoJPEG(file);
-            if (convertedBlob) {
-              const reader = new FileReader();
-              reader.onload = function (e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = () => {
-                  console.log(`HEIC image ${i + 1} converted and loaded successfully.`);
-                  resolve(img);
-                };
-                img.onerror = (err) => {
-                  console.error(`Error loading converted HEIC image ${i + 1}:`, err);
-                  reject(new Error(`Failed to load converted HEIC image ${i + 1}`));
-                };
-              };
-              reader.onerror = (err) => {
-                console.error(`Error reading converted HEIC file ${i + 1}:`, err);
-                reject(new Error(`Failed to read converted HEIC file ${i + 1}`));
-              };
-              reader.readAsDataURL(convertedBlob);
-            } else {
-              throw new Error("HEIC conversion failed");
-            }
-          } catch (error) {
-            console.error(`Error converting HEIC file ${i + 1}:`, error);
-            reject(new Error(`Failed to convert HEIC file ${i + 1}`));
-          }
+          convertHEICtoJPEG(file)
+            .then((img) => {
+              console.log(`HEIC image ${i + 1} converted and loaded successfully.`);
+              resolve(img);
+            })
+            .catch((err) => {
+              console.error(`Error converting HEIC file ${i + 1}:`, err);
+              reject(new Error(`Failed to convert HEIC file ${i + 1}`));
+            });
         } else {
           // Handle non-HEIC images
           const reader = new FileReader();
@@ -101,7 +83,7 @@ function loadImages(files) {
             reject(new Error(`Failed to read file ${i + 1} (File: ${file.name})`));
           };
 
-          reader.readAsDataURL(file); // Read file as Base64
+          reader.readAsDataURL(file);
         }
       }));
     }
@@ -113,32 +95,48 @@ function loadImages(files) {
 }
 
 async function convertHEICtoJPEG(file) {
-  // If we can't use heic2any reliably, replace this with a conversion API call or service
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = async function () {
+    reader.onload = async function (e) {
       try {
-        const img = new Image();
-        img.src = reader.result;
-        img.onload = () => {
-          // Convert to canvas to get JPEG
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
+        const arrayBuffer = e.target.result;
+        const data = new Uint8Array(arrayBuffer);
 
-          // Convert canvas to JPEG Blob
-          canvas.toBlob((blob) => {
-            resolve(blob);
-          }, 'image/jpeg', 0.9);
-        };
-      } catch (err) {
-        console.error("HEIC to JPEG conversion failed.", err);
-        reject(null);
+        heif.load(data);
+
+        const handle = heif.createContext().decode();
+        const image = handle.images[0];
+        const width = image.get_width();
+        const height = image.get_height();
+        const rgba = image.get_image_raster();
+        
+        // Create a canvas to convert the image into JPEG
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.createImageData(width, height);
+        imageData.data.set(rgba);
+        ctx.putImageData(imageData, 0, 0);
+
+        // Convert the canvas to a Blob and return it as a JPEG
+        canvas.toBlob((blob) => {
+          const img = new Image();
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            img.src = e.target.result;
+            img.onload = () => resolve(img);
+          };
+          reader.readAsDataURL(blob);
+        }, 'image/jpeg', 0.9);
+      } catch (error) {
+        reject(error);
       }
     };
-    reader.readAsDataURL(file);
+    reader.onerror = (err) => {
+      reject(new Error("Failed to read HEIC file."));
+    };
+    reader.readAsArrayBuffer(file);
   });
 }
 
@@ -218,7 +216,6 @@ function startAgain() {
   alert("All images have been cleared.");
 }
 
-// Export HTML file with embedded images in Base64
 function exportHTMLFile() {
   let base64Images = imageElements.map(img => img.src);
 
