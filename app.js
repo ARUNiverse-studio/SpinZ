@@ -50,8 +50,10 @@ function loadImages(files) {
         const file = files[i];
 
         // Check if the file is a HEIC image
-        if (file.type === 'image/heic') {
+        if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
           try {
+            console.log(`Attempting to convert HEIC file: ${file.name}`);
+            
             // Convert HEIC to another format (JPEG or PNG)
             const blob = await heic2any({
               blob: file,
