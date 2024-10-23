@@ -10,47 +10,27 @@ body {
   background: linear-gradient(135deg, #f8f9fa, #e9ecef);
   color: #333;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
 }
 
-/* Main Container */
-.container {
-  width: 90%;
-  max-width: 1200px;
+/* Workspace Container */
+.workspace {
+  width: 100%;
+  max-width: 600px; /* Limit size for easy embedding */
   margin: 0 auto;
   text-align: center;
-  padding: 40px;
+  padding: 20px;
   background-color: #fff;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.container:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Logo Styling */
-.logo-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.logo {
-  width: 150px; /* Default size of the logo */
-  height: auto;
-  display: block;
-  margin: 0 auto;
 }
 
 /* Title */
 h1 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #333;
   margin-bottom: 20px;
 }
@@ -61,12 +41,12 @@ h1 {
 }
 
 #imageUpload {
-  padding: 12px;
+  padding: 10px;
   border: 2px solid #007BFF;
   border-radius: 8px;
   margin-right: 10px;
-  width: calc(100% - 120px); /* Make it responsive */
-  max-width: 300px; /* Limit max width for larger screens */
+  width: calc(100% - 120px);
+  max-width: 250px;
   transition: border-color 0.3s ease;
 }
 
@@ -77,18 +57,16 @@ h1 {
 
 /* Buttons */
 button {
-  padding: 12px 25px;
+  padding: 10px 20px;
   background: linear-gradient(135deg, #007BFF, #0056b3);
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: auto; /* Set width to auto to avoid stretching */
-  max-width: 200px; /* Maximum width for desktop view */
-  margin-top: 10px; /* Spacing between buttons */
+  max-width: 150px;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -99,7 +77,7 @@ button:hover {
 
 /* Viewer Section */
 #viewerContainer {
-  margin-top: 50px;
+  margin-top: 20px;
   display: none;
 }
 
@@ -113,71 +91,11 @@ canvas {
   background-color: #f9f9f9;
 }
 
-/* Start Again and Export Buttons in Bottom-Right Corner */
+/* Start Again and Export Buttons */
 .export-section {
-  display: flex; /* Use flexbox for button layout */
-  justify-content: center; /* Center the buttons */
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: center; /* Center items horizontally */
-  position: relative; /* Relative position for button positioning */
-  height: auto; /* Let the height adjust automatically */
-}
-
-/* Start Again Button */
-#startAgainButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #FF6347, #FF4500); /* Different color for Start Again button */
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#startAgainButton:hover {
-  background: linear-gradient(135deg, #FF4500, #CC3700);
-}
-
-/* Export Button */
-#exportButton {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#exportButton:hover {
-  background: linear-gradient(135deg, #0056b3, #004080);
-}
-
-/* Responsive Design for Small Screens */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  .container {
-    padding: 20px;
-  }
-
-  #imageUpload {
-    width: 100%; /* Full width on small screens */
-    margin-bottom: 10px; /* Add margin below input */
-  }
-
-  .logo {
-    width: 120px; /* Smaller logo size on mobile */
-  }
-
-  /* Ensure buttons are full width on small screens */
-  button {
-    width: 100%; /* Make buttons full width on small screens */
-  }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
