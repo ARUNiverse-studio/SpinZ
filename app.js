@@ -29,8 +29,6 @@ async function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
-  console.log(`Total images to load: ${totalImages}`);
-
   try {
     imageElements = await loadImages(files);
     init360Viewer();
@@ -47,55 +45,21 @@ async function loadImages(files) {
     promises.push(new Promise((resolve, reject) => {
       const file = files[i];
 
-      // Check if the file is a HEIC image
-      if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
-        heic2any({
-          blob: file,
-          toType: 'image/jpeg'
-        }).then((convertedBlob) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = () => {
-              console.log(`HEIC image ${i + 1} converted and loaded successfully.`);
-              resolve(img);
-            };
-            img.onerror = (err) => {
-              console.error(`Error loading converted HEIC image ${i + 1}:`, err);
-              reject(new Error(`Failed to load converted HEIC image ${i + 1}`));
-            };
-          };
-          reader.onerror = (err) => {
-            console.error(`Error reading converted HEIC file ${i + 1}:`, err);
-            reject(new Error(`Failed to read converted HEIC file ${i + 1}`));
-          };
-          reader.readAsDataURL(convertedBlob);
-        }).catch((err) => {
-          console.error(`Error converting HEIC file ${i + 1}:`, err);
-          reject(new Error(`Failed to convert HEIC file ${i + 1}`));
-        });
-      } else {
-        // Handle non-HEIC images
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.src = e.target.result;
-          img.onload = () => {
-            console.log(`Image ${i + 1} loaded successfully.`);
-            resolve(img);
-          };
-          img.onerror = (err) => {
-            console.error(`Error loading image ${i + 1}:`, err);
-            reject(new Error(`Failed to load image ${i + 1} (File: ${file.name})`));
-          };
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = () => {
+          resolve(img);
         };
-        reader.onerror = (err) => {
-          console.error(`Error reading file ${i + 1}:`, err);
-          reject(new Error(`Failed to read file ${i + 1} (File: ${file.name})`));
+        img.onerror = (err) => {
+          reject(new Error(`Failed to load image ${i + 1} (File: ${file.name})`));
         };
-        reader.readAsDataURL(file);
-      }
+      };
+      reader.onerror = (err) => {
+        reject(new Error(`Failed to read file ${i + 1} (File: ${file.name})`));
+      };
+      reader.readAsDataURL(file);
     }));
   }
 
@@ -108,7 +72,7 @@ function init360Viewer() {
     return;
   }
 
-  const canvasWidth = Math.min(window.innerWidth * 0.9, 800); // Responsive width
+  const canvasWidth = Math.min(window.innerWidth * 0.9, 800); 
   const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
 
   canvas.width = canvasWidth;
@@ -118,34 +82,29 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Display the first image with scaling to fit the canvas
   ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
 
-  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mouseleave', stopDragging);
-  canvas.addEventListener('touchstart', startDragging);
-  canvas.addEventListener('touchmove', onDragging);
-  canvas.addEventListener('touchend', stopDragging);
 }
 
 function startDragging(e) {
   e.preventDefault();
   isDragging = true;
-  startX = e.clientX || e.touches[0].clientX;
+  startX = e.clientX;
 }
 
 function onDragging(e) {
   e.preventDefault();
   if (!isDragging) return;
 
-  const currentX = e.clientX || e.touches[0].clientX;
+  const currentX = e.clientX;
   const deltaX = currentX - startX;
 
   if (Math.abs(deltaX) > dragSpeed / totalImages) {
-    const direction = deltaX > 0 ? -1 : 1; // Negative for left, positive for right
+    const direction = deltaX > 0 ? -1 : 1;
     startX = currentX;
 
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
@@ -174,8 +133,6 @@ function startAgain() {
   document.getElementById('imageUpload').value = '';
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  alert("All images have been cleared.");
 }
 
 function exportHTMLFile() {
@@ -206,60 +163,21 @@ function exportHTMLFile() {
     <body>
       <canvas id="canvas"></canvas>
       <script>
-        let isDragging = false;
-        let startX = 0;
-        let currentImageIndex = 0;
-        let totalImages = ${totalImages};
         let imageElements = [];
-        let canvas = document.getElementById('canvas');
-        let ctx = canvas.getContext('2d');
-        let dragSpeed = 200;
-
         const imageSrcs = ${JSON.stringify(base64Images)};
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
         imageSrcs.forEach(src => {
           const img = new Image();
           img.src = src;
           img.onload = () => {
             imageElements.push(img);
-            if (imageElements.length === totalImages) {
-              initViewer();
+            if (imageElements.length === ${totalImages}) {
+              ctx.drawImage(imageElements[0], 0, 0);
             }
           };
         });
-
-        function initViewer() {
-          canvas.width = imageElements[0].width;
-          canvas.height = imageElements[0].height;
-          ctx.drawImage(imageElements[0], 0, 0);
-
-          canvas.addEventListener('mousedown', startDragging);
-          canvas.addEventListener('mousemove', onDragging);
-          canvas.addEventListener('mouseup', stopDragging);
-        }
-
-        function startDragging(e) {
-          isDragging = true;
-          startX = e.clientX;
-        }
-
-        function onDragging(e) {
-          if (!isDragging) return;
-          const currentX = e.clientX;
-          const deltaX = currentX - startX;
-
-          if (Math.abs(deltaX) > dragSpeed / totalImages) {
-            const direction = deltaX > 0 ? -1 : 1;
-            startX = currentX;
-
-            currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(imageElements[currentImageIndex], 0, 0);
-          }
-        }
-
-        function stopDragging() {
-          isDragging = false;
-        }
       </script>
     </body>
     </html>
