@@ -79,6 +79,10 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
+  // Set the canvas size based on the first image to avoid compression
+  canvas.width = imageElements[0].width;
+  canvas.height = imageElements[0].height;
+
   drawImageWithAspectRatio(imageElements[0]);
 
   canvas.addEventListener('mousedown', startDragging);
@@ -88,29 +92,9 @@ function init360Viewer() {
 }
 
 function drawImageWithAspectRatio(img) {
-  const canvasWidth = canvas.width;
-  const canvasHeight = canvas.height;
-  const imageWidth = img.width;
-  const imageHeight = img.height;
-
-  const canvasAspectRatio = canvasWidth / canvasHeight;
-  const imageAspectRatio = imageWidth / imageHeight;
-
-  let renderWidth, renderHeight;
-
-  if (canvasAspectRatio > imageAspectRatio) {
-    renderHeight = canvasHeight;
-    renderWidth = renderHeight * imageAspectRatio;
-  } else {
-    renderWidth = canvasWidth;
-    renderHeight = renderWidth / imageAspectRatio;
-  }
-
-  const xOffset = (canvasWidth - renderWidth) / 2;
-  const yOffset = (canvasHeight - renderHeight) / 2;
-
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);  // Clear the canvas
-  ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);  // Draw the image at full resolution
+  // Clear the canvas and draw the image at full resolution
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, img.width, img.height);
 }
 
 function onDragging(e) {
@@ -208,9 +192,11 @@ function exportHTMLFile() {
         });
 
         function initViewer() {
-          const canvasWidth = canvas.width;
-          const canvasHeight = canvas.height;
+          // Set the canvas size to match the image size
+          canvas.width = imageElements[0].width;
+          canvas.height = imageElements[0].height;
 
+          // Display the first image
           drawImageWithAspectRatio(imageElements[0]);
 
           canvas.addEventListener('mousedown', startDragging);
@@ -219,29 +205,8 @@ function exportHTMLFile() {
         }
 
         function drawImageWithAspectRatio(img) {
-          const canvasWidth = canvas.width;
-          const canvasHeight = canvas.height;
-          const imageWidth = img.width;
-          const imageHeight = img.height;
-
-          const canvasAspectRatio = canvasWidth / canvasHeight;
-          const imageAspectRatio = imageWidth / imageHeight;
-
-          let renderWidth, renderHeight;
-
-          if (canvasAspectRatio > imageAspectRatio) {
-            renderHeight = canvasHeight;
-            renderWidth = renderHeight * imageAspectRatio;
-          } else {
-            renderWidth = canvasWidth;
-            renderHeight = renderWidth / imageAspectRatio;
-          }
-
-          const xOffset = (canvasWidth - renderWidth) / 2;
-          const yOffset = (canvasHeight - renderHeight) / 2;
-
-          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-          ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, img.width, img.height);
         }
 
         function startDragging(e) {
