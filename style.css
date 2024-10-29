@@ -18,34 +18,35 @@ body {
   padding: 0;
 }
 
-/* Main Container */
+/* Main Container with grid layout */
 .container {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Two columns: left 1/3, right 2/3 */
+  gap: 20px;
+  max-height: 736px; /* Restrict the height */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
   padding: 20px;
-}
-
-/* Title */
-h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 /* Upload Section */
 .upload-section {
-  margin-bottom: 20px;
+  text-align: left; /* Align content to the left */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 #imageUpload {
   padding: 12px;
   border: 2px solid #007BFF;
   border-radius: 8px;
-  margin-right: 10px;
-  width: calc(100% - 120px); /* Make it responsive */
-  max-width: 300px; /* Limit max width for larger screens */
+  margin-bottom: 10px;
+  width: 100%; /* Full width */
+  max-width: none; /* Remove max-width */
   transition: border-color 0.3s ease;
 }
 
@@ -65,8 +66,6 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  width: auto;
-  max-width: 200px;
   margin-top: 10px;
 }
 
@@ -78,14 +77,15 @@ button:hover {
 
 /* Viewer Section */
 #viewerContainer {
-  margin-top: 50px;
-  display: none;
+  grid-column: 2 / 3; /* Set the viewer to occupy the right side */
+  display: block;
 }
 
 /* Canvas Styling */
 canvas {
   width: 100%;
   height: auto;
+  max-height: 736px; /* Restrict canvas height */
   border: 1px solid #ddd;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -94,20 +94,11 @@ canvas {
 
 /* Responsive Design for Small Screens */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-
   .container {
-    padding: 20px;
+    grid-template-columns: 1fr; /* Stack items vertically on small screens */
   }
 
-  #imageUpload {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  button {
-    width: 100%;
+  canvas {
+    max-height: 300px; /* Adjust canvas height for small screens */
   }
 }
