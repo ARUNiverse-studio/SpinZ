@@ -82,18 +82,37 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
+  // Draw the first image while maintaining the aspect ratio
+  drawImageWithAspectRatio(imageElements[0]);
 
+  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
   canvas.addEventListener('mouseleave', stopDragging);
 }
 
-function startDragging(e) {
-  e.preventDefault();
-  isDragging = true;
-  startX = e.clientX;
+function drawImageWithAspectRatio(img) {
+  const canvasRatio = canvas.width / canvas.height;
+  const imageRatio = img.width / img.height;
+
+  let renderWidth, renderHeight;
+
+  if (canvasRatio > imageRatio) {
+    // Canvas is wider, fit image by height
+    renderHeight = canvas.height;
+    renderWidth = img.width * (canvas.height / img.height);
+  } else {
+    // Canvas is taller, fit image by width
+    renderWidth = canvas.width;
+    renderHeight = img.height * (canvas.width / img.width);
+  }
+
+  const xOffset = (canvas.width - renderWidth) / 2;
+  const yOffset = (canvas.height - renderHeight) / 2;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
+  ctx.drawImage(img, xOffset, yOffset, renderWidth, renderHeight);  // Draw the image
 }
 
 function onDragging(e) {
@@ -109,12 +128,14 @@ function onDragging(e) {
 
     currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const img = imageElements[currentImageIndex];
-    const canvasWidth = canvas.width;
-    const canvasHeight = (img.height / img.width) * canvasWidth;
-    ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+    drawImageWithAspectRatio(imageElements[currentImageIndex]);
   }
+}
+
+function startDragging(e) {
+  e.preventDefault();
+  isDragging = true;
+  startX = e.clientX;
 }
 
 function stopDragging() {
@@ -133,8 +154,6 @@ function startAgain() {
   document.getElementById('imageUpload').value = '';
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  alert("All images have been cleared.");
 }
 
 function exportHTMLFile() {
