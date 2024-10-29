@@ -75,9 +75,6 @@ function init360Viewer() {
     return;
   }
 
-  const canvasWidth = canvas.width;
-  const canvasHeight = canvas.height;
-
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
@@ -91,24 +88,29 @@ function init360Viewer() {
 }
 
 function drawImageWithAspectRatio(img) {
-  const canvasRatio = canvas.width / canvas.height;
-  const imageRatio = img.width / img.height;
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
+  const imageWidth = img.width;
+  const imageHeight = img.height;
+
+  const canvasAspectRatio = canvasWidth / canvasHeight;
+  const imageAspectRatio = imageWidth / imageHeight;
 
   let renderWidth, renderHeight;
 
-  if (canvasRatio > imageRatio) {
-    renderHeight = canvas.height;
-    renderWidth = renderHeight * imageRatio;
+  if (canvasAspectRatio > imageAspectRatio) {
+    renderHeight = canvasHeight;
+    renderWidth = renderHeight * imageAspectRatio;
   } else {
-    renderWidth = canvas.width;
-    renderHeight = renderWidth / imageRatio;
+    renderWidth = canvasWidth;
+    renderHeight = renderWidth / imageAspectRatio;
   }
 
-  const xOffset = (canvas.width - renderWidth) / 2;
-  const yOffset = (canvas.height - renderHeight) / 2;
+  const xOffset = (canvasWidth - renderWidth) / 2;
+  const yOffset = (canvasHeight - renderHeight) / 2;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
-  ctx.drawImage(img, xOffset, yOffset, renderWidth, renderHeight);  // Draw the image
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);  // Clear the canvas
+  ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);  // Draw the image at full resolution
 }
 
 function onDragging(e) {
@@ -206,13 +208,9 @@ function exportHTMLFile() {
         });
 
         function initViewer() {
-          const canvasWidth = Math.min(window.innerWidth * 0.9, 800); 
-          const canvasHeight = Math.min(window.innerHeight * 0.9, 600);
+          const canvasWidth = canvas.width;
+          const canvasHeight = canvas.height;
 
-          canvas.width = canvasWidth;
-          canvas.height = canvasHeight;
-
-          // Display the first image
           drawImageWithAspectRatio(imageElements[0]);
 
           canvas.addEventListener('mousedown', startDragging);
@@ -221,24 +219,29 @@ function exportHTMLFile() {
         }
 
         function drawImageWithAspectRatio(img) {
-          const canvasRatio = canvas.width / canvas.height;
-          const imageRatio = img.width / img.height;
+          const canvasWidth = canvas.width;
+          const canvasHeight = canvas.height;
+          const imageWidth = img.width;
+          const imageHeight = img.height;
+
+          const canvasAspectRatio = canvasWidth / canvasHeight;
+          const imageAspectRatio = imageWidth / imageHeight;
 
           let renderWidth, renderHeight;
 
-          if (canvasRatio > imageRatio) {
-            renderHeight = canvas.height;
-            renderWidth = renderHeight * imageRatio;
+          if (canvasAspectRatio > imageAspectRatio) {
+            renderHeight = canvasHeight;
+            renderWidth = renderHeight * imageAspectRatio;
           } else {
-            renderWidth = canvas.width;
-            renderHeight = renderWidth / imageRatio;
+            renderWidth = canvasWidth;
+            renderHeight = renderWidth / imageAspectRatio;
           }
 
-          const xOffset = (canvas.width - renderWidth) / 2;
-          const yOffset = (canvas.height - renderHeight) / 2;
+          const xOffset = (canvasWidth - renderWidth) / 2;
+          const yOffset = (canvasHeight - renderHeight) / 2;
 
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, xOffset, yOffset, renderWidth, renderHeight);
+          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+          ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);
         }
 
         function startDragging(e) {
