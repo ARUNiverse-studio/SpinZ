@@ -73,7 +73,7 @@ function init360Viewer() {
   }
 
   const canvasWidth = Math.min(window.innerWidth * 0.9, 800); 
-  const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
+  const canvasHeight = Math.min(window.innerHeight * 0.9, 600); // Responsive to height
 
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
@@ -98,14 +98,15 @@ function drawImageWithAspectRatio(img) {
 
   let renderWidth, renderHeight;
 
+  // Determine whether to scale by width or height based on the aspect ratio
   if (canvasRatio > imageRatio) {
-    // Canvas is wider, fit image by height
+    // Fit by height
     renderHeight = canvas.height;
-    renderWidth = img.width * (canvas.height / img.height);
+    renderWidth = renderHeight * imageRatio;
   } else {
-    // Canvas is taller, fit image by width
+    // Fit by width
     renderWidth = canvas.width;
-    renderHeight = img.height * (canvas.width / img.width);
+    renderHeight = renderWidth / imageRatio;
   }
 
   const xOffset = (canvas.width - renderWidth) / 2;
@@ -211,19 +212,38 @@ function exportHTMLFile() {
 
         function initViewer() {
           const canvasWidth = Math.min(window.innerWidth * 0.9, 800); 
-          const canvasHeight = (imageElements[0].height / imageElements[0].width) * canvasWidth;
+          const canvasHeight = Math.min(window.innerHeight * 0.9, 600);
 
           canvas.width = canvasWidth;
           canvas.height = canvasHeight;
 
           // Display the first image
-          ctx.drawImage(imageElements[0], 0, 0, canvas.width, canvas.height);
+          drawImageWithAspectRatio(imageElements[0]);
 
-          // Add event listeners for dragging
           canvas.addEventListener('mousedown', startDragging);
           canvas.addEventListener('mousemove', onDragging);
           canvas.addEventListener('mouseup', stopDragging);
-          canvas.addEventListener('mouseleave', stopDragging);
+        }
+
+        function drawImageWithAspectRatio(img) {
+          const canvasRatio = canvas.width / canvas.height;
+          const imageRatio = img.width / img.height;
+
+          let renderWidth, renderHeight;
+
+          if (canvasRatio > imageRatio) {
+            renderHeight = canvas.height;
+            renderWidth = renderHeight * imageRatio;
+          } else {
+            renderWidth = canvas.width;
+            renderHeight = renderWidth / imageRatio;
+          }
+
+          const xOffset = (canvas.width - renderWidth) / 2;
+          const yOffset = (canvas.height - renderHeight) / 2;
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, xOffset, yOffset, renderWidth, renderHeight);
         }
 
         function startDragging(e) {
@@ -245,11 +265,7 @@ function exportHTMLFile() {
 
             currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const img = imageElements[currentImageIndex];
-            const canvasWidth = canvas.width;
-            const canvasHeight = (img.height / img.width) * canvasWidth;
-            ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+            drawImageWithAspectRatio(imageElements[currentImageIndex]);
           }
         }
 
