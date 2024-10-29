@@ -95,13 +95,12 @@ button:hover {
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 100%; /* Ensure consistent height */
+  height: 400px; /* Ensure a fixed height */
 }
 
 canvas {
   width: 100%;
-  height: auto;
-  max-height: 100%; /* Ensure the canvas fills the container */
+  height: 100%; /* Ensure the canvas fills the container */
   border: 1px solid #333;
   border-radius: 12px;
   background-color: #262626;
