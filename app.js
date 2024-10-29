@@ -29,6 +29,9 @@ async function generate360View() {
   currentImageIndex = 0;
   totalImages = files.length;
 
+  document.getElementById('placeholder').style.display = 'none';
+  canvas.style.display = 'block'; // Show the canvas when an image is uploaded
+
   try {
     imageElements = await loadImages(files);
     init360Viewer();
@@ -72,20 +75,15 @@ function init360Viewer() {
     return;
   }
 
-  const canvasWidth = Math.min(window.innerWidth * 0.9, 800); 
-  const canvasHeight = Math.min(window.innerHeight * 0.9, 600); // Responsive to height
-
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
 
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Draw the first image while maintaining the aspect ratio
   drawImageWithAspectRatio(imageElements[0]);
 
-  // Add event listeners for dragging
   canvas.addEventListener('mousedown', startDragging);
   canvas.addEventListener('mousemove', onDragging);
   canvas.addEventListener('mouseup', stopDragging);
@@ -98,13 +96,10 @@ function drawImageWithAspectRatio(img) {
 
   let renderWidth, renderHeight;
 
-  // Determine whether to scale by width or height based on the aspect ratio
   if (canvasRatio > imageRatio) {
-    // Fit by height
     renderHeight = canvas.height;
     renderWidth = renderHeight * imageRatio;
   } else {
-    // Fit by width
     renderWidth = canvas.width;
     renderHeight = renderWidth / imageRatio;
   }
