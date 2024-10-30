@@ -23,7 +23,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  height: 500px;  /* Fixed height */
+  height: 500px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -40,14 +40,16 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Add spacing between the elements */
-  justify-content: flex-start; /* Align elements from the top */
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: stretch;  /* Ensure buttons and input are aligned */
 }
 
 .upload-section h2 {
   color: #ffffff;
   font-weight: 600;
   font-size: 1.5rem;
+  text-align: center;  /* Center the heading */
 }
 
 #imageUpload {
@@ -85,10 +87,9 @@ button:hover {
 }
 
 button + button {
-  margin-top: 10px;  /* Add consistent gap between buttons */
+  margin-top: 10px;
 }
 
-/* Viewer Section */
 #viewerContainer {
   padding: 20px;
   background-color: #1a1a1a;
@@ -96,7 +97,7 @@ button + button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;  /* Fixed height */
+  height: 100%;  /* Take up full height */
   width: 100%;
 }
 
@@ -116,7 +117,8 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;  /* Ensure it takes up the full height */
+  height: 100%;  /* Full height for centering */
+  width: 100%;   /* Ensure message is centered in both directions */
 }
 
 @media (max-width: 768px) {
