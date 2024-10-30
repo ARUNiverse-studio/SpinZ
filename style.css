@@ -10,9 +10,12 @@ body {
   background: #121212;
   color: #ffffff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 /* Main Container */
@@ -23,25 +26,18 @@ body {
   height: 500px;  /* Fixed height for the container */
   width: 100%;
   max-width: 1200px;
-  background-color: #1f1f1f;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
   padding: 20px;
-  align-items: center;  /* Align vertically in the middle */
+  align-items: center;  /* Vertically center content */
 }
 
-/* Upload Section */
+/* Upload Section (No background box) */
 .upload-section {
-  padding: 20px;
-  background-color: #292929;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  justify-content: center;  /* Center the content */
-  height: 100%;  /* Full height of the card */
+  justify-content: flex-start;
+  height: 100%;  /* Full height for better alignment */
 }
 
 .upload-section h2 {
@@ -88,17 +84,13 @@ button + button {
   margin-top: 10px;
 }
 
-/* Viewer Section */
+/* Viewer Section (No background box) */
 #viewerContainer {
-  padding: 20px;
-  background-color: #1a1a1a;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;  /* Full height of the card */
+  height: 100%;  /* Full height for consistency */
   width: 100%;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 canvas {
@@ -107,18 +99,16 @@ canvas {
   border: 1px solid #333;
   border-radius: 12px;
   background-color: #262626;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 #placeholder {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #bbb;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;  /* Take up full height */
-  width: 100%;   /* Full width to center text */
+  height: 100%;  /* Center the message vertically and horizontally */
+  width: 100%;   /* Full width for proper centering */
 }
 
 @media (max-width: 768px) {
