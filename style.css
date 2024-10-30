@@ -18,11 +18,11 @@ body {
   padding: 0;
 }
 
+/* Main Container */
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  height: 500px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -37,6 +37,9 @@ body {
   background-color: #292929;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .upload-section h2 {
@@ -44,6 +47,7 @@ body {
   margin-bottom: 15px;
   font-weight: 600;
   font-size: 1.6rem;
+  text-align: center;
 }
 
 #imageUpload {
@@ -51,7 +55,6 @@ body {
   border: 2px solid #431FD4;
   border-radius: 8px;
   margin-bottom: 15px;
-  width: 100%;
   background-color: #2a2a2a;
   color: #ffffff;
   transition: border-color 0.3s ease;
@@ -82,11 +85,13 @@ button:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* Viewer Section */
 #viewerContainer {
   padding: 20px;
   background-color: #1a1a1a;
   border-radius: 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 400px;
@@ -106,8 +111,11 @@ canvas {
   font-size: 1.2rem;
   color: #bbb;
   text-align: center;
+  display: block;
+  margin-top: 20px;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
