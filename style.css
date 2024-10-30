@@ -52,7 +52,7 @@ body {
 
 #imageUpload {
   padding: 12px;
-  border: 2px solid #007BFF;
+  border: 2px solid #431FD4; /* Use the primary color */
   border-radius: 8px;
   margin-bottom: 15px;
   width: 100%;
@@ -69,7 +69,7 @@ body {
 button {
   padding: 12px;
   width: 100%;
-  background: linear-gradient(135deg, #007BFF, #0056b3);
+  background: linear-gradient(135deg, #431FD4, #1F0CB3); /* Primary color gradient */
   color: white;
   border: none;
   cursor: pointer;
@@ -81,7 +81,7 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(135deg, #0056b3, #003366);
+  background: linear-gradient(135deg, #1F0CB3, #0A0866); /* Darker gradient on hover */
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
