@@ -101,6 +101,11 @@ canvas {
   background-color: transparent;  /* No background color */
 }
 
+/* Remove Placeholder Text */
+#placeholder {
+  display: none;  /* Ensures that the text is fully removed */
+}
+
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
