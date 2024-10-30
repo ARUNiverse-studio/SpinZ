@@ -6,9 +6,9 @@ let imageElements = [];
 let canvas, ctx;
 let dragSpeed = 200;
 
-// Fixed canvas height and width
+// Set a consistent fixed height for the workspace
 const fixedCanvasHeight = 400;
-const fixedCanvasWidth = 600;
+const fixedCanvasWidth = document.getElementById('viewerContainer').offsetWidth;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', export360ViewerHTML);
@@ -86,9 +86,9 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Set fixed height and width for the canvas to match the image resolution
-  canvas.width = imageElements[0].width;  // Set canvas to image resolution for quality
-  canvas.height = imageElements[0].height;
+  // Set fixed height and width for the canvas (do not change canvas size based on image size)
+  canvas.width = fixedCanvasWidth;
+  canvas.height = fixedCanvasHeight;
 
   drawImageWithAspectRatio(imageElements[0]);
 
@@ -164,7 +164,7 @@ function startAgain() {
 
   document.getElementById('imageUpload').value = '';
 
-  // Reset the canvas to fixed height and width
+  // Reset the canvas to fixed height and width (consistent size even after clear)
   canvas.width = fixedCanvasWidth;
   canvas.height = fixedCanvasHeight;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -224,8 +224,8 @@ function export360ViewerHTML() {
         });
 
         function initViewer() {
-          canvas.width = imageElements[0].width;
-          canvas.height = imageElements[0].height;
+          canvas.width = ${fixedCanvasWidth};
+          canvas.height = ${fixedCanvasHeight};
           drawImageWithAspectRatio(imageElements[0]);
 
           canvas.addEventListener('mousedown', startDragging);
