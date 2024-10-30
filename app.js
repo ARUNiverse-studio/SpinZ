@@ -8,6 +8,7 @@ let dragSpeed = 200;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
+document.getElementById('startAgainButton').innerText = 'Clear';  // Rename the button
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
 async function generate360View() {
@@ -31,6 +32,8 @@ async function generate360View() {
 
   document.getElementById('placeholder').style.display = 'none';
   canvas.style.display = 'block'; // Show the canvas when an image is uploaded
+
+  document.getElementById('generateButton').style.display = 'none'; // Hide the generate button
 
   try {
     imageElements = await loadImages(files);
@@ -78,10 +81,6 @@ function init360Viewer() {
   document.getElementById('viewerContainer').style.display = 'block';
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
-
-  // Set the canvas size to the fixed size
-  canvas.width = 800; // Set to your desired canvas size (you can modify this)
-  canvas.height = 600; // Fixed height to avoid changes in the canvas height
 
   drawImageWithAspectRatio(imageElements[0]);
 
@@ -153,6 +152,7 @@ function startAgain() {
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
+  document.getElementById('generateButton').style.display = 'block'; // Show generate button again
 
   document.getElementById('imageUpload').value = '';
 
@@ -213,10 +213,8 @@ function exportHTMLFile() {
         });
 
         function initViewer() {
-          const canvasWidth = 800; // Fixed width for the canvas
-          const canvasHeight = 600; // Fixed height for the canvas
-          canvas.width = canvasWidth;
-          canvas.height = canvasHeight;
+          const canvasWidth = canvas.width;
+          const canvasHeight = canvas.height;
 
           drawImageWithAspectRatio(imageElements[0]);
 
