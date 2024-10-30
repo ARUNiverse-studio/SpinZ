@@ -23,7 +23,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  height: 500px;
+  height: 500px;  /* Fixed height */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -31,8 +31,10 @@ body {
   background-color: #1f1f1f;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  align-items: center;  /* Ensures content is aligned vertically */
 }
 
+/* Upload Section */
 .upload-section {
   padding: 20px;
   background-color: #292929;
@@ -42,14 +44,15 @@ body {
   flex-direction: column;
   gap: 20px;
   justify-content: flex-start;
-  align-items: stretch;  /* Ensure buttons and input are aligned */
+  align-items: center;  /* Align contents in center of upload section */
+  height: 100%;  /* Ensure the upload section takes full height */
 }
 
 .upload-section h2 {
   color: #ffffff;
   font-weight: 600;
   font-size: 1.5rem;
-  text-align: center;  /* Center the heading */
+  text-align: center;
 }
 
 #imageUpload {
@@ -90,6 +93,7 @@ button + button {
   margin-top: 10px;
 }
 
+/* Viewer Section */
 #viewerContainer {
   padding: 20px;
   background-color: #1a1a1a;
@@ -97,8 +101,9 @@ button + button {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;  /* Take up full height */
+  height: 100%;  /* Full height to match the layout */
   width: 100%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Add shadow for card effect */
 }
 
 canvas {
@@ -117,8 +122,8 @@ canvas {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;  /* Full height for centering */
-  width: 100%;   /* Ensure message is centered in both directions */
+  height: 100%;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
