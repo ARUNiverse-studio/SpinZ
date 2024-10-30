@@ -6,12 +6,12 @@ let imageElements = [];
 let canvas, ctx;
 let dragSpeed = 200;
 
-// Fixed canvas height
+// Fixed canvas height and width
 const fixedCanvasHeight = 400;
 const fixedCanvasWidth = 600;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
-document.getElementById('exportButton').addEventListener('click', exportHTMLFile);
+document.getElementById('exportButton').addEventListener('click', export360ViewerHTML);
 document.getElementById('startAgainButton').innerText = 'Clear';  // Rename the button
 document.getElementById('startAgainButton').addEventListener('click', startAgain);
 
@@ -86,9 +86,9 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Set fixed height and width for the canvas
-  canvas.width = fixedCanvasWidth;
-  canvas.height = fixedCanvasHeight;
+  // Set fixed height and width for the canvas to match the image resolution
+  canvas.width = imageElements[0].width;  // Set canvas to image resolution for quality
+  canvas.height = imageElements[0].height;
 
   drawImageWithAspectRatio(imageElements[0]);
 
@@ -170,7 +170,7 @@ function startAgain() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function exportHTMLFile() {
+function export360ViewerHTML() {
   let base64Images = imageElements.map(img => img.src);
 
   const htmlContent = `
@@ -224,11 +224,8 @@ function exportHTMLFile() {
         });
 
         function initViewer() {
-          const canvasWidth = ${fixedCanvasWidth};
-          const canvasHeight = ${fixedCanvasHeight};
-          canvas.width = canvasWidth;
-          canvas.height = canvasHeight;
-
+          canvas.width = imageElements[0].width;
+          canvas.height = imageElements[0].height;
           drawImageWithAspectRatio(imageElements[0]);
 
           canvas.addEventListener('mousedown', startDragging);
@@ -247,7 +244,6 @@ function exportHTMLFile() {
 
           let renderWidth, renderHeight;
 
-          // Maintain aspect ratio and fit the image within the canvas
           if (canvasAspectRatio > imageAspectRatio) {
             renderHeight = canvasHeight;
             renderWidth = renderHeight * imageAspectRatio;
