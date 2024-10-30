@@ -79,9 +79,9 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Set the canvas size based on the first image to avoid compression
-  canvas.width = imageElements[0].width;
-  canvas.height = imageElements[0].height;
+  // Set the canvas size to the fixed size
+  canvas.width = 800; // Set to your desired canvas size (you can modify this)
+  canvas.height = 600; // Fixed height to avoid changes in the canvas height
 
   drawImageWithAspectRatio(imageElements[0]);
 
@@ -92,9 +92,30 @@ function init360Viewer() {
 }
 
 function drawImageWithAspectRatio(img) {
-  // Clear the canvas and draw the image at full resolution
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(img, 0, 0, img.width, img.height);
+  const canvasWidth = canvas.width;
+  const canvasHeight = canvas.height;
+  const imageWidth = img.width;
+  const imageHeight = img.height;
+
+  const canvasAspectRatio = canvasWidth / canvasHeight;
+  const imageAspectRatio = imageWidth / imageHeight;
+
+  let renderWidth, renderHeight;
+
+  // Maintain aspect ratio and fit the image within the canvas
+  if (canvasAspectRatio > imageAspectRatio) {
+    renderHeight = canvasHeight;
+    renderWidth = renderHeight * imageAspectRatio; // Scale width proportionally
+  } else {
+    renderWidth = canvasWidth;
+    renderHeight = renderWidth / imageAspectRatio; // Scale height proportionally
+  }
+
+  const xOffset = (canvasWidth - renderWidth) / 2; // Center horizontally
+  const yOffset = (canvasHeight - renderHeight) / 2; // Center vertically
+
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clear the canvas
+  ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight); // Draw the image at full resolution, maintaining aspect ratio
 }
 
 function onDragging(e) {
@@ -192,11 +213,11 @@ function exportHTMLFile() {
         });
 
         function initViewer() {
-          // Set the canvas size to match the image size
-          canvas.width = imageElements[0].width;
-          canvas.height = imageElements[0].height;
+          const canvasWidth = 800; // Fixed width for the canvas
+          const canvasHeight = 600; // Fixed height for the canvas
+          canvas.width = canvasWidth;
+          canvas.height = canvasHeight;
 
-          // Display the first image
           drawImageWithAspectRatio(imageElements[0]);
 
           canvas.addEventListener('mousedown', startDragging);
@@ -205,8 +226,30 @@ function exportHTMLFile() {
         }
 
         function drawImageWithAspectRatio(img) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, img.width, img.height);
+          const canvasWidth = canvas.width;
+          const canvasHeight = canvas.height;
+          const imageWidth = img.width;
+          const imageHeight = img.height;
+
+          const canvasAspectRatio = canvasWidth / canvasHeight;
+          const imageAspectRatio = imageWidth / imageHeight;
+
+          let renderWidth, renderHeight;
+
+          // Maintain aspect ratio and fit the image within the canvas
+          if (canvasAspectRatio > imageAspectRatio) {
+            renderHeight = canvasHeight;
+            renderWidth = renderHeight * imageAspectRatio;
+          } else {
+            renderWidth = canvasWidth;
+            renderHeight = renderWidth / imageAspectRatio;
+          }
+
+          const xOffset = (canvasWidth - renderWidth) / 2; // Center horizontally
+          const yOffset = (canvasHeight - renderHeight) / 2; // Center vertically
+
+          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+          ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);
         }
 
         function startDragging(e) {
