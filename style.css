@@ -10,7 +10,6 @@ body {
   background: #121212;
   color: #ffffff;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -22,34 +21,37 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 20px;
-  height: 500px;  /* Fixed height for the container */
+  gap: 30px;  /* Slightly bigger gap for better separation */
+  height: 500px;  /* Fixed height */
   width: 100%;
   max-width: 1200px;
   padding: 20px;
-  align-items: center;  /* Vertically center content */
+  align-items: center;  /* Vertical centering */
+  background-color: #1b1b1b;  /* A more modern dark background */
+  border-radius: 12px;  /* Slightly rounded corners */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);  /* Soft shadow for emphasis */
 }
 
-/* Upload Section (No background box) */
+/* Upload Section */
 .upload-section {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  justify-content: flex-start;
-  height: 100%;  /* Full height for better alignment */
+  justify-content: center;  /* Centered content */
+  height: 100%;  /* Full height */
 }
 
 .upload-section h2 {
   color: #ffffff;
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.6rem;  /* Slightly larger heading */
   text-align: center;
 }
 
 #imageUpload {
   padding: 12px;
-  border: 2px solid #431FD4;
+  border: 2px solid #431FD4;  /* Primary color for emphasis */
   border-radius: 8px;
   background-color: #2a2a2a;
   color: #ffffff;
@@ -57,7 +59,7 @@ body {
 }
 
 #imageUpload:focus {
-  border-color: #66bfff;
+  border-color: #66bfff;  /* Highlight on focus */
   outline: none;
 }
 
@@ -81,34 +83,40 @@ button:hover {
 }
 
 button + button {
-  margin-top: 10px;
+  margin-top: 10px;  /* Consistent space between buttons */
 }
 
-/* Viewer Section (No background box) */
+/* Viewer Section */
 #viewerContainer {
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;  /* Full height for consistency */
+  height: 100%;  /* Full height */
   width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #333;  /* Border for viewer container */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);  /* Subtle shadow for depth */
 }
 
 canvas {
   width: 100%;
   height: 100%;
-  border: 1px solid #333;
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: #262626;
+  border: 1px solid #333;  /* Consistent border style */
 }
 
 #placeholder {
-  font-size: 1.5rem;
+  font-size: 1.5rem;  /* Slightly larger placeholder text */
   color: #bbb;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;  /* Center the message vertically and horizontally */
-  width: 100%;   /* Full width for proper centering */
+  height: 100%;  /* Full height for perfect centering */
+  width: 100%;   /* Full width for perfect centering */
 }
 
 @media (max-width: 768px) {
