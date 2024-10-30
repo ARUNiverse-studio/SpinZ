@@ -101,16 +101,6 @@ canvas {
   background-color: transparent;  /* No background color */
 }
 
-#placeholder {
-  font-size: 1.5rem;  /* Slightly larger placeholder text */
-  color: #bbb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;  /* Full height for perfect centering */
-  width: 100%;   /* Full width for perfect centering */
-}
-
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
