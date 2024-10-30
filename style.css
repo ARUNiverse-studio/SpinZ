@@ -23,6 +23,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
+  height: 500px;  /* Ensuring fixed height */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -46,8 +47,7 @@ body {
   color: #ffffff;
   margin-bottom: 15px;
   font-weight: 600;
-  font-size: 1.6rem;
-  text-align: center;
+  font-size: 1.5rem;
 }
 
 #imageUpload {
@@ -58,6 +58,7 @@ body {
   background-color: #2a2a2a;
   color: #ffffff;
   transition: border-color 0.3s ease;
+  width: 100%;
 }
 
 #imageUpload:focus {
@@ -82,7 +83,7 @@ button {
 button:hover {
   background-color: #3212A8;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Viewer Section */
@@ -91,10 +92,9 @@ button:hover {
   background-color: #1a1a1a;
   border-radius: 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  height: 400px;  /* Ensuring fixed height for the canvas */
   width: 100%;
 }
 
@@ -112,12 +112,14 @@ canvas {
   color: #bbb;
   text-align: center;
   display: block;
-  margin-top: 20px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
+  }
+
+  canvas {
+    max-height: 300px;
   }
 }
