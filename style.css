@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #121212;
+  background: #121212;  /* Dark background */
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -21,24 +21,21 @@ body {
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 30px;  /* Slightly bigger gap for better separation */
+  gap: 30px;  /* Proper spacing between upload and viewer */
   height: 500px;  /* Fixed height */
   width: 100%;
   max-width: 1200px;
   padding: 20px;
   align-items: center;  /* Vertical centering */
-  background-color: #1b1b1b;  /* A more modern dark background */
-  border-radius: 12px;  /* Slightly rounded corners */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);  /* Soft shadow for emphasis */
 }
 
-/* Upload Section */
+/* Upload Section (No boxes or background) */
 .upload-section {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  justify-content: center;  /* Centered content */
+  justify-content: center;
   height: 100%;  /* Full height */
 }
 
@@ -59,7 +56,7 @@ body {
 }
 
 #imageUpload:focus {
-  border-color: #66bfff;  /* Highlight on focus */
+  border-color: #66bfff;
   outline: none;
 }
 
@@ -73,31 +70,25 @@ button {
   border-radius: 8px;
   font-size: 1rem;
   font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
   background-color: #3212A8;
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 button + button {
   margin-top: 10px;  /* Consistent space between buttons */
 }
 
-/* Viewer Section */
+/* Viewer Section (No boxes or background) */
 #viewerContainer {
-  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;  /* Full height */
   width: 100%;
-  background-color: #1a1a1a;
-  border: 1px solid #333;  /* Border for viewer container */
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);  /* Subtle shadow for depth */
 }
 
 canvas {
@@ -105,13 +96,11 @@ canvas {
   height: 100%;
   border-radius: 8px;
   background-color: #262626;
-  border: 1px solid #333;  /* Consistent border style */
 }
 
 #placeholder {
   font-size: 1.5rem;  /* Slightly larger placeholder text */
   color: #bbb;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
