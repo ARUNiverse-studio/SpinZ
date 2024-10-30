@@ -6,9 +6,9 @@ let imageElements = [];
 let canvas, ctx;
 let dragSpeed = 200;
 
-// Set a consistent fixed height for the workspace
+// Consistent canvas height and width
 const fixedCanvasHeight = 400;
-const fixedCanvasWidth = document.getElementById('viewerContainer').offsetWidth;
+const fixedCanvasWidth = 600;
 
 document.getElementById('generateButton').addEventListener('click', generate360View);
 document.getElementById('exportButton').addEventListener('click', export360ViewerHTML);
@@ -86,7 +86,7 @@ function init360Viewer() {
   document.getElementById('exportButton').style.display = 'block';
   document.getElementById('startAgainButton').style.display = 'block';
 
-  // Set fixed height and width for the canvas (do not change canvas size based on image size)
+  // Set canvas to fixed height and width (even after clearing)
   canvas.width = fixedCanvasWidth;
   canvas.height = fixedCanvasHeight;
 
@@ -109,20 +109,20 @@ function drawImageWithAspectRatio(img) {
 
   let renderWidth, renderHeight;
 
-  // Maintain aspect ratio and fit the image within the canvas without stretching or compressing
+  // Maintain aspect ratio and fit the image within the canvas
   if (canvasAspectRatio > imageAspectRatio) {
     renderHeight = canvasHeight;
-    renderWidth = renderHeight * imageAspectRatio; // Scale width proportionally
+    renderWidth = renderHeight * imageAspectRatio;
   } else {
     renderWidth = canvasWidth;
-    renderHeight = renderWidth / imageAspectRatio; // Scale height proportionally
+    renderHeight = renderWidth / imageAspectRatio;
   }
 
   const xOffset = (canvasWidth - renderWidth) / 2; // Center horizontally
   const yOffset = (canvasHeight - renderHeight) / 2; // Center vertically
 
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clear the canvas
-  ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight); // Draw the image at full resolution, maintaining aspect ratio
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctx.drawImage(img, 0, 0, img.width, img.height, xOffset, yOffset, renderWidth, renderHeight);
 }
 
 function onDragging(e) {
@@ -160,11 +160,11 @@ function startAgain() {
   document.getElementById('viewerContainer').style.display = 'none';
   document.getElementById('exportButton').style.display = 'none';
   document.getElementById('startAgainButton').style.display = 'none';
-  document.getElementById('generateButton').style.display = 'block'; // Show generate button again
+  document.getElementById('generateButton').style.display = 'block';
 
   document.getElementById('imageUpload').value = '';
 
-  // Reset the canvas to fixed height and width (consistent size even after clear)
+  // Reset canvas size to fixed dimensions
   canvas.width = fixedCanvasWidth;
   canvas.height = fixedCanvasHeight;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
