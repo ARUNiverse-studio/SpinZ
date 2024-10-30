@@ -23,7 +23,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
-  height: 500px;  /* Ensuring fixed height */
+  height: 500px;  /* Fixed height */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -40,12 +40,12 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 20px; /* Add spacing between the elements */
+  justify-content: flex-start; /* Align elements from the top */
 }
 
 .upload-section h2 {
   color: #ffffff;
-  margin-bottom: 15px;
   font-weight: 600;
   font-size: 1.5rem;
 }
@@ -54,7 +54,6 @@ body {
   padding: 12px;
   border: 2px solid #431FD4;
   border-radius: 8px;
-  margin-bottom: 15px;
   background-color: #2a2a2a;
   color: #ffffff;
   transition: border-color 0.3s ease;
@@ -77,13 +76,16 @@ button {
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 10px;
 }
 
 button:hover {
   background-color: #3212A8;
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+button + button {
+  margin-top: 10px;  /* Add consistent gap between buttons */
 }
 
 /* Viewer Section */
@@ -94,7 +96,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;  /* Ensuring fixed height for the canvas */
+  height: 400px;  /* Fixed height */
   width: 100%;
 }
 
@@ -111,7 +113,10 @@ canvas {
   font-size: 1.2rem;
   color: #bbb;
   text-align: center;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;  /* Ensure it takes up the full height */
 }
 
 @media (max-width: 768px) {
