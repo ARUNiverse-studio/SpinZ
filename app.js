@@ -67,12 +67,12 @@ async function loadImages(files) {
                     resolve(img);
                 };
                 img.onerror = () => {
-                    console.error(`Error loading image ${i + 1}: ${file.name}`);
+                    console.error(`Error loading image ${i + 1}:`, file.name);
                     reject(new Error(`Failed to load image ${i + 1}`));
                 };
             };
             reader.onerror = () => {
-                console.error(`Error reading file ${i + 1}: ${file.name}`);
+                console.error(`Error reading file ${i + 1}:`, file.name);
                 reject(new Error(`Failed to read file ${i + 1}`));
             };
             reader.readAsDataURL(file);
