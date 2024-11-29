@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>360° Image Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,15 +14,12 @@
       <button id="generateButton">Generate 360° View</button>
       <button id="startAgainButton" style="display: none;">Clear</button>
       <button id="exportButton" style="display: none;">Export</button>
+      <button id="copyEmbedButton" style="display: none;">Copy Embed Code</button>
     </div>
     <div id="viewerContainer">
       <canvas id="canvas"></canvas>
-      <div id="placeholder">No image uploaded yet</div>
     </div>
   </div>
-
-  <!-- Include libheif.js for HEIC conversion -->
-  <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
-  <script src="app.js"></script> <!-- Link to the JavaScript file -->
+  <script src="app.js"></script>
 </body>
 </html>
