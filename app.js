@@ -17,7 +17,6 @@ document.getElementById('copyEmbedButton').addEventListener('click', copyEmbedCo
 
 async function generate360View() {
     const files = document.getElementById('imageUpload').files;
-    console.log("Uploaded files:", files);
 
     if (files.length === 0) {
         alert("Please upload images to generate the 360° view.");
@@ -29,24 +28,26 @@ async function generate360View() {
         return;
     }
 
-    canvas = document.getElementById('canvas');
-    ctx = canvas.getContext('2d');
-    imageElements = [];
-    currentImageIndex = 0;
-    totalImages = files.length;
-
-    document.getElementById('placeholder').style.display = 'none';
-    canvas.style.display = 'block';
-
-    document.getElementById('generateButton').style.display = 'none';
-
     try {
+        console.log("Uploaded files:", files);
+
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        imageElements = [];
+        currentImageIndex = 0;
+        totalImages = files.length;
+
+        document.getElementById('placeholder').style.display = 'none';
+        canvas.style.display = 'block';
+        document.getElementById('generateButton').style.display = 'none';
+
         imageElements = await loadImages(files);
         console.log("Images loaded successfully:", imageElements);
+
         init360Viewer();
     } catch (error) {
-        alert("An error occurred while loading the images.");
-        console.error("Detailed error information:", error);
+        alert("Error occurred while generating the 360° view.");
+        console.error("Error details:", error);
     }
 }
 
@@ -56,14 +57,24 @@ async function loadImages(files) {
         promises.push(new Promise((resolve, reject) => {
             const file = files[i];
             console.log("Processing file:", file.name);
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 const img = new Image();
                 img.src = e.target.result;
-                img.onload = () => resolve(img);
-                img.onerror = () => reject(new Error(`Failed to load image ${i + 1} (File: ${file.name})`));
+                img.onload = () => {
+                    console.log(`Image ${i + 1} loaded successfully.`);
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    console.error(`Error loading image ${i + 1}: ${file.name}`);
+                    reject(new Error(`Failed to load image ${i + 1}`));
+                };
             };
-            reader.onerror = () => reject(new Error(`Failed to read file ${i + 1} (File: ${file.name})`));
+            reader.onerror = () => {
+                console.error(`Error reading file ${i + 1}: ${file.name}`);
+                reject(new Error(`Failed to read file ${i + 1}`));
+            };
             reader.readAsDataURL(file);
         }));
     }
@@ -85,11 +96,14 @@ function init360Viewer() {
     canvas.height = fixedCanvasHeight;
 
     drawImageWithAspectRatio(imageElements[0]);
+    console.log("360° Viewer initialized successfully!");
 
     canvas.addEventListener('mousedown', startDragging);
     canvas.addEventListener('mousemove', onDragging);
     canvas.addEventListener('mouseup', stopDragging);
     canvas.addEventListener('mouseleave', stopDragging);
+
+    alert("360° Viewer generated successfully!");
 }
 
 function drawImageWithAspectRatio(img) {
