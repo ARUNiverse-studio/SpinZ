@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>360° Image Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="upload-section">
+      <h2>Upload Images</h2>
+      <input type="file" id="imageUpload" multiple accept="image/*, .heic">
+      <button id="generateButton">Generate 360° View</button>
+      <button id="startAgainButton" style="display: none;">Clear</button>
+      <button id="exportButton" style="display: none;">Export</button>
+    </div>
+    <div id="viewerContainer">
+      <canvas id="canvas"></canvas>
+      <div id="placeholder">No image uploaded yet</div>
+    </div>
+  </div>
+
+  <!-- Include libheif.js for HEIC conversion -->
+  <script src="https://cdn.jsdelivr.net/npm/libheif-js/dist/libheif.js"></script>
+  <script src="app.js"></script> <!-- Link to the JavaScript file -->
+</body>
+</html>
